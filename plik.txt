@@ -1,0 +1,14 @@
+STEROWANIE:
+GRACZ 1 
+Podniesienie celownika	W
+Opuszczenie celownika	S
+Strza³		F
+
+GRACZ2
+Podniesienie celownika	UP
+Opuszczenie celownika	DOWN
+Strza³		CTRL
+
+Dodatkowe klawisze
+Tryb debug		F2
+Pauza		SPACE

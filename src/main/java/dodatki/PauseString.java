@@ -1,0 +1,59 @@
+package dodatki;
+import java.awt.*;
+
+import obiekty.Plansza;
+
+public class PauseString{
+	private final int MIDDLE = (Plansza.SZEROKOSC / 2)+100;
+	private final int BOTTOM = Plansza.WYSOKOSC - 100;
+	private final int P_POINTS = 9;
+	private final int A_POINTS = 9;
+	private final int U_POINTS = 11;
+	private final int Z_POINTS = 9;
+	private final int EGDE_OF_THE_SQUARE = 15;
+	private final int BG_COMPONENT_RED = 86; // Sk³adowe RGB dla koloru t³a
+	private final int BG_COMPONENT_GREEN = 153;
+	private final int BG_COMPONENT_BLUE = 156;
+	
+	
+	private int tabPX[] = {MIDDLE-220, MIDDLE-182,MIDDLE-181,MIDDLE-180,MIDDLE-180,MIDDLE-200,MIDDLE-200,MIDDLE-220,MIDDLE-220};
+	private int tabPY[] = {BOTTOM-220,BOTTOM-220,BOTTOM-198,BOTTOM-196, BOTTOM-185,BOTTOM-185,BOTTOM-150,BOTTOM-150,BOTTOM-220};
+	
+	private int tabAX[] = {MIDDLE-175,MIDDLE-135,MIDDLE-135,MIDDLE-150,MIDDLE-150,MIDDLE-160,MIDDLE-160,MIDDLE-175,MIDDLE-175};
+	private int tabAY[] = {BOTTOM-220,BOTTOM-220,BOTTOM-150,BOTTOM-150,BOTTOM-185,BOTTOM-185,BOTTOM-150,BOTTOM-150,BOTTOM-220};
+	
+	private int tabA2X[] = {MIDDLE-35,MIDDLE+5,MIDDLE+5,MIDDLE-10,MIDDLE-10,MIDDLE-20,MIDDLE-20,MIDDLE-35,MIDDLE-35};
+	private int tabA2Y[] = {BOTTOM-220,BOTTOM-220,BOTTOM-150,BOTTOM-150,BOTTOM-185,BOTTOM-185,BOTTOM-150,BOTTOM-150,BOTTOM-220};
+	
+	private int tabUX[] = {MIDDLE-130,MIDDLE-115,MIDDLE-115,MIDDLE-105,MIDDLE-105,MIDDLE-90,MIDDLE-90,MIDDLE-85,MIDDLE-85,MIDDLE-130,MIDDLE-130};
+	private int tabUY[] = {BOTTOM-220,BOTTOM-220,BOTTOM-170,BOTTOM-170,BOTTOM-220,BOTTOM-220,BOTTOM-160,BOTTOM-160,BOTTOM-150,BOTTOM-150,BOTTOM-220};
+	
+	private int tabZX[] = {MIDDLE-80,MIDDLE-40,MIDDLE-55,MIDDLE-40,MIDDLE-40,MIDDLE-80,MIDDLE-65,MIDDLE-80,MIDDLE-80};
+	private int tabZY[] = {BOTTOM-220,BOTTOM-220,BOTTOM-170,BOTTOM-170,BOTTOM-150,BOTTOM-150, BOTTOM-200,BOTTOM-200,BOTTOM-220};
+	
+	public void paint(Graphics2D g){
+		g.setColor(Color.red);
+		g.fillPolygon(tabPX,tabPY,P_POINTS);
+		g.setColor(new Color(BG_COMPONENT_RED, BG_COMPONENT_GREEN,BG_COMPONENT_BLUE));
+		g.fillRect(MIDDLE - 205, BOTTOM-213,EGDE_OF_THE_SQUARE,EGDE_OF_THE_SQUARE);
+		
+		g.setColor(Color.red);
+		g.fillPolygon(tabAX,tabAY,A_POINTS);
+		g.setColor(new Color(BG_COMPONENT_RED, BG_COMPONENT_GREEN,BG_COMPONENT_BLUE));
+		g.fillRect(MIDDLE - 160, BOTTOM-213,EGDE_OF_THE_SQUARE,EGDE_OF_THE_SQUARE);
+		
+		g.setColor(Color.red);
+		g.fillPolygon(tabUX,tabUY,U_POINTS);
+		
+		g.setColor(Color.red);
+		g.fillPolygon(tabZX,tabZY,Z_POINTS);
+		
+		g.setColor(Color.red);
+		g.fillPolygon(tabA2X,tabA2Y,A_POINTS);
+		g.setColor(new Color(BG_COMPONENT_RED, BG_COMPONENT_GREEN,BG_COMPONENT_BLUE));
+		g.fillRect(MIDDLE - 20, BOTTOM-213,EGDE_OF_THE_SQUARE,EGDE_OF_THE_SQUARE);
+		
+		
+	}
+
+}
