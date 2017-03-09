@@ -1,37 +1,37 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 
 /**
- * Klasa opisuj¹ca pocisk
+ * Klasa opisujï¿½ca pocisk
  * 
- * @author Micha³
+ * @author Michaï¿½
  * 
  */
-public class Pocisk {
+public class Bullet {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
 	private final int LEFT = 0;
 	private final int RIGHT = 1;
 	private final int PLAYER1_INFO_X = 60;
-	private final int PLAYER2_INFO_X = Plansza.SZEROKOSC - 160;
+	private final int PLAYER2_INFO_X = Board.SZEROKOSC - 160;
 	private final int BULLET_SPEED_INFO_Y = 200;
 	private final int BULLET_COORDINATES_INFO = 270;
 	private final int STANDARD_DISPLAY_WIDTH = 800;
 	private final int STANDARD_BULLET_SPEED = 30;
-	private final int MINIMAL_BULLET_SPEED = (Plansza.SZEROKOSC * STANDARD_BULLET_SPEED)
+	private final int MINIMAL_BULLET_SPEED = (Board.SZEROKOSC * STANDARD_BULLET_SPEED)
 			/ STANDARD_DISPLAY_WIDTH;
 	private final int NUMBER_OF_POINTS = 4;
 	private final int HILL = 0;
 
 	private int polozenieX;
 	private int polozenieY;
-	int Xpocz, Ypocz; // wpolrzedne pocz¹tkowe
+	int Xpocz, Ypocz; // wpolrzedne poczï¿½tkowe
 	int playerNumber;
-	private boolean fired = false; // zmienna okreslaj¹ca czy pocisk ma byc
-									// wyrysowany czy nie (dok³adnie oznacza czy
+	private boolean fired = false; // zmienna okreslajï¿½ca czy pocisk ma byc
+									// wyrysowany czy nie (dokï¿½adnie oznacza czy
 									// wystrzelono pocisk czy nie)
-	RzutUkosny rzut;
+	ObliqueThrow rzut;
 
 	double time = 0.1; // Uzyta przy rzucie ukosnym
 	public double angle;// Kat nachylenia dzialka
@@ -41,10 +41,10 @@ public class Pocisk {
 	private boolean collision;
 	private boolean debugMode = false;
 
-	public Pocisk(int playerNumber) {
+	public Bullet(int playerNumber) {
 		this.playerNumber = playerNumber;
 		night = false;
-		rzut = new RzutUkosny();
+		rzut = new ObliqueThrow();
 		collision = false;
 	}
 
@@ -70,9 +70,9 @@ public class Pocisk {
 	}
 
 	/**
-	 * Ustawienie Pocz¹tkowe Kulki (miejsce z którego bêdzie startowaæ)
+	 * Ustawienie Poczï¿½tkowe Kulki (miejsce z ktï¿½rego bï¿½dzie startowaï¿½)
 	 * 
-	 * @param int[] polozenie - dwuelementowa tablica ze wspó³rzednymi X i Y
+	 * @param int[] polozenie - dwuelementowa tablica ze wspï¿½rzednymi X i Y
 	 */
 	public void ustawPolozeniePoczatkowe(int[] polozenie) {
 		if (fired != true) {
@@ -86,14 +86,14 @@ public class Pocisk {
 		if (fired) {
 			if (night) {
 				g.setColor(Color.white);
-				g.drawOval(polozenieX - (Plansza.SREDNICA / 2), polozenieY
-						- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-						Plansza.SREDNICA);
+				g.drawOval(polozenieX - (Board.SREDNICA / 2), polozenieY
+						- (Board.SREDNICA / 2), Board.SREDNICA,
+						Board.SREDNICA);
 			}
 			g.setColor(Color.DARK_GRAY);
-			g.fillOval(polozenieX - (Plansza.SREDNICA / 2), polozenieY
-					- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-					Plansza.SREDNICA);
+			g.fillOval(polozenieX - (Board.SREDNICA / 2), polozenieY
+					- (Board.SREDNICA / 2), Board.SREDNICA,
+					Board.SREDNICA);
 		}
 		g.setColor(Color.black);
 		if(debugMode){
@@ -117,7 +117,7 @@ public class Pocisk {
 	}
 
 	/**
-	 * Zmiana Po³o¿enia kulki
+	 * Zmiana Poï¿½oï¿½enia kulki
 	 */
 	public void update() {
 		if (fired == true) {
@@ -125,27 +125,27 @@ public class Pocisk {
 				/*
 				 * polozenieX--; polozenieY--;
 				 */
-				polozenieX = ((Plansza.SZEROKOSC) - ((int) rzut.getXfor(time)))
-						- (Plansza.SZEROKOSC - Xpocz);
-				polozenieY = (((int) rzut.getYfor(time)) - (Plansza.WYSOKOSC - Ypocz));
+				polozenieX = ((Board.SZEROKOSC) - ((int) rzut.getXfor(time)))
+						- (Board.SZEROKOSC - Xpocz);
+				polozenieY = (((int) rzut.getYfor(time)) - (Board.WYSOKOSC - Ypocz));
 			} else if (playerNumber == GRACZ1) {
 				/*
 				 * polozenieX++; polozenieY--;
 				 */
 				polozenieX = (((int) rzut.getXfor(time)) + Xpocz);
-				polozenieY = (((int) rzut.getYfor(time)) - (Plansza.WYSOKOSC - Ypocz));
+				polozenieY = (((int) rzut.getYfor(time)) - (Board.WYSOKOSC - Ypocz));
 			}
 			time += 0.1;
 		}
-		if ((polozenieX <= 0) || (polozenieX > Plansza.SZEROKOSC)
-				|| (polozenieY > Plansza.WYSOKOSC)) {
+		if ((polozenieX <= 0) || (polozenieX > Board.SZEROKOSC)
+				|| (polozenieY > Board.WYSOKOSC)) {
 			fired = false;
 			time = 0.1;
 		}
 	}
 
 	/**
-	 * Metoda zwraca true jesli pocisk zosta³ wystrzelony
+	 * Metoda zwraca true jesli pocisk zostaï¿½ wystrzelony
 	 * 
 	 * @return fired
 	 */
@@ -154,7 +154,7 @@ public class Pocisk {
 	}
 
 	/**
-	 * Metoda ustawiaj¹ca wartosc pola fired
+	 * Metoda ustawiajï¿½ca wartosc pola fired
 	 * 
 	 * @param fired
 	 */
@@ -163,7 +163,7 @@ public class Pocisk {
 	}
 
 	/**
-	 * Metoda do ustawiania prêdkoœci
+	 * Metoda do ustawiania prï¿½dkoï¿½ci
 	 * 
 	 * @param speed
 	 */
@@ -172,48 +172,48 @@ public class Pocisk {
 	}
 
 	/**
-	 * Metoda zwraca obiekt Rectangle bêd¹cy kwadratem w które wpisana jest
+	 * Metoda zwraca obiekt Rectangle bï¿½dï¿½cy kwadratem w ktï¿½re wpisana jest
 	 * kulka
 	 * 
 	 * @return
 	 */
 	public Rectangle getBounds() {
-		return new Rectangle(polozenieX - (Plansza.SREDNICA / 2), polozenieY
-				- (Plansza.SREDNICA / 2), Plansza.SREDNICA, Plansza.SREDNICA);
+		return new Rectangle(polozenieX - (Board.SREDNICA / 2), polozenieY
+				- (Board.SREDNICA / 2), Board.SREDNICA, Board.SREDNICA);
 
 	}
 
 	/**
-	 * Metoda zwraca obiekt Polygon bêd¹cy kwadratem w które wpisana jest kulka
+	 * Metoda zwraca obiekt Polygon bï¿½dï¿½cy kwadratem w ktï¿½re wpisana jest kulka
 	 * 
 	 * @return
 	 */
 	public Polygon getPolygonBounds() {
 		int tabX[] = new int[NUMBER_OF_POINTS];
 		int tabY[] = new int[NUMBER_OF_POINTS];
-		tabX[0] = polozenieX - (Plansza.SREDNICA / 2);
-		tabY[0] = polozenieY - (Plansza.SREDNICA / 2);
-		tabX[1] = polozenieX - (Plansza.SREDNICA / 2) + Plansza.SREDNICA;
-		tabY[1] = polozenieY - (Plansza.SREDNICA / 2);
-		tabX[2] = polozenieX - (Plansza.SREDNICA / 2) + Plansza.SREDNICA;
-		tabY[2] = polozenieY - (Plansza.SREDNICA / 2) + Plansza.SREDNICA;
-		tabX[3] = polozenieX - (Plansza.SREDNICA / 2);
-		tabY[3] = polozenieY - (Plansza.SREDNICA / 2) + Plansza.SREDNICA;
+		tabX[0] = polozenieX - (Board.SREDNICA / 2);
+		tabY[0] = polozenieY - (Board.SREDNICA / 2);
+		tabX[1] = polozenieX - (Board.SREDNICA / 2) + Board.SREDNICA;
+		tabY[1] = polozenieY - (Board.SREDNICA / 2);
+		tabX[2] = polozenieX - (Board.SREDNICA / 2) + Board.SREDNICA;
+		tabY[2] = polozenieY - (Board.SREDNICA / 2) + Board.SREDNICA;
+		tabX[3] = polozenieX - (Board.SREDNICA / 2);
+		tabY[3] = polozenieY - (Board.SREDNICA / 2) + Board.SREDNICA;
 		return new Polygon(tabX, tabY, NUMBER_OF_POINTS);
 	}
 
 	/**
-	 * Metoda wykonuj¹ca operacje po kolizji
+	 * Metoda wykonujï¿½ca operacje po kolizji
 	 */
 	public void collision(int which) {
 		if (which == HILL)
 			collision = true;
 		fired = false;
 		if (playerNumber == GRACZ1) {
-			polozenieX = Plansza.SZEROKOSC + 1;
+			polozenieX = Board.SZEROKOSC + 1;
 		} else
 			polozenieX = 0;
-		polozenieY = Plansza.WYSOKOSC + 1;
+		polozenieY = Board.WYSOKOSC + 1;
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class Pocisk {
 	}
 
 	/**
-	 * Zwaraca wspolrzedn¹ Y kulki
+	 * Zwaraca wspolrzednï¿½ Y kulki
 	 * 
 	 * @return polozenieY
 	 */
@@ -244,7 +244,7 @@ public class Pocisk {
 	}
 
 	/**
-	 * Metoda do sprawdzania czy wyst¹pi³a kolizja
+	 * Metoda do sprawdzania czy wystï¿½piï¿½a kolizja
 	 * 
 	 * @return collision
 	 */
@@ -253,7 +253,7 @@ public class Pocisk {
 	}
 
 	/**
-	 * Metoda ustawiaj¹ca kolizjê
+	 * Metoda ustawiajï¿½ca kolizjï¿½
 	 * 
 	 * @param collision
 	 */

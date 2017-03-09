@@ -1,17 +1,17 @@
-package dodatki;
+package pl.towers.additions;
 
 import java.awt.*;
 
-import obiekty.Plansza;
+import pl.towers.objects.Board;
 
 /**
- * Klasa odpowiedzialna za narysowanie i animowanie napisu "WINNER" wyswietlanego po zwyciêstwie  jednego z graczy
- * @author Micha³
+ * Klasa odpowiedzialna za narysowanie i animowanie napisu "WINNER" wyswietlanego po zwyciï¿½stwie  jednego z graczy
+ * @author Michaï¿½
  *
  */
 public class WinnerString {
-	private final int MIDDLE = Plansza.SZEROKOSC / 2;
-	private final int BOTTOM = Plansza.WYSOKOSC - 40;
+	private final int MIDDLE = Board.SZEROKOSC / 2;
+	private final int BOTTOM = Board.WYSOKOSC - 40;
 	private final int W_POINTS = 13;
 	private final int I_POINTS = 5;
 	private final int N_POINTS = 11;
@@ -87,7 +87,7 @@ public class WinnerString {
 
 	
 	/**
-	 * Aktualizacja kolorów w napisie
+	 * Aktualizacja kolorï¿½w w napisie
 	 */
 	public void update() {
 		delay++;

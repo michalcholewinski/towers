@@ -1,28 +1,28 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 /**
- * Klasa opisuj¹ca gracza
+ * Klasa opisujï¿½ca gracza
  * 
- * @author Micha³
+ * @author Michaï¿½
  * 
  */
-public class Gracz extends Wieza {
+public class Player extends Tower {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
-	private final int DEC_LIFE = 10; //okresla o ile zmniejsza sie zycie po dostaniu kulk¹
+	private final int DEC_LIFE = 10; //okresla o ile zmniejsza sie zycie po dostaniu kulkï¿½
 
 	private String playerName;
 
-	private boolean shot = false; // zmienna okreslaj¹ca czy wystrzelono
+	private boolean shot = false; // zmienna okreslajï¿½ca czy wystrzelono
 									// pocisk
 	private boolean decreaseLife=false;
 	private boolean keyReleased = true;
 
-	public Gracz(int playerNumber, String playerName) {
+	public Player(int playerNumber, String playerName) {
 		super(playerNumber);
 		this.playerName = playerName;
 	}
@@ -40,7 +40,7 @@ public class Gracz extends Wieza {
 		}
 	}
 	/**
-	 * Obni¿anie celownika
+	 * Obniï¿½anie celownika
 	 * @param player
 	 */
 	public void celownikDown(int player){
@@ -189,7 +189,7 @@ public class Gracz extends Wieza {
 		return decreaseLife;
 	}
 	/**
-	 * Metoda zwraca true jesli pocisk zosta³ wystrzelony
+	 * Metoda zwraca true jesli pocisk zostaï¿½ wystrzelony
 	 * 
 	 * @return strzal
 	 */
@@ -198,7 +198,7 @@ public class Gracz extends Wieza {
 	}
 	
 	/**
-	 * Metoda zwracaj¹ca nazwe Gracza
+	 * Metoda zwracajï¿½ca nazwe Gracza
 	 * @return nazwa Gracza
 	 */
 	public String getPlayerName() {
@@ -206,7 +206,7 @@ public class Gracz extends Wieza {
 	}
 	
 	/**
-	 * Metoda zwracaj¹ca obiekt Rectangle który ma wielkosc wiezy
+	 * Metoda zwracajï¿½ca obiekt Rectangle ktï¿½ry ma wielkosc wiezy
 	 * @return
 	 */
 	public Rectangle getBounds(){
@@ -217,12 +217,12 @@ public class Gracz extends Wieza {
 		else if(playerNumber==GRACZ2){
 			whichTower=RIGHT_TOWER_X;
 		}	
-		return new Rectangle(whichTower, POINT_Y1,TOWER_WIDTH,Plansza.WYSOKOSC-POINT_Y1);
+		return new Rectangle(whichTower, POINT_Y1,TOWER_WIDTH, Board.WYSOKOSC-POINT_Y1);
 
 	}
 	
 	/**
-	 * Metoda odpowiedzialna za operacje zwi¹zane z kolizj¹
+	 * Metoda odpowiedzialna za operacje zwiï¿½zane z kolizjï¿½
 	 */
 	public void collision(){
 		if(decreaseLife){
@@ -233,7 +233,7 @@ public class Gracz extends Wieza {
 		decreaseLife=false;
 	}
 	/**
-	 * Metoda zwracaj¹ca watrosc true gdy graczowi skoñczy siê ¿ycie
+	 * Metoda zwracajï¿½ca watrosc true gdy graczowi skoï¿½czy siï¿½ ï¿½ycie
 	 * @return
 	 */
 	public boolean isEndOfLife(){
@@ -244,7 +244,7 @@ public class Gracz extends Wieza {
 	}
 	
 	/**
-	 * Sprawdzenie czy przycisk jest nadal wcisniêty
+	 * Sprawdzenie czy przycisk jest nadal wcisniï¿½ty
 	 * @return keyReleased
 	 */
 	public boolean isKeyReleased(){

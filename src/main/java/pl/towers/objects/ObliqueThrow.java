@@ -1,4 +1,4 @@
-package obiekty;
+package pl.towers.objects;
 
 /**
  * Klasa reprezentujaca rzut oblicza wszystkie niezbedne parametry, PRZEROBIONA
@@ -7,7 +7,7 @@ package obiekty;
  * @author Squall -Robert Kaszubowski
  * @version 1.00 2009/12/29
  */
-public class RzutUkosny {
+public class ObliqueThrow {
 	
 
 	public double a;
@@ -17,7 +17,7 @@ public class RzutUkosny {
 	private final double G = 9.80665; // Przyspieszenie ziemskie
 
 	/**
-	 * Obliczenie wszystkich niezbednych parametrów
+	 * Obliczenie wszystkich niezbednych parametrï¿½w
 	 * 
 	 * @param angle
 	 * @param speed
@@ -46,7 +46,7 @@ public class RzutUkosny {
 	 */
 
 	public double getYfor(double t) {
-		return Plansza.WYSOKOSC - (vy * t - G * t * t / 2.0);
+		return Board.WYSOKOSC - (vy * t - G * t * t / 2.0);
 	}
 
 	// Przycina kat do pierwszej cwiartki

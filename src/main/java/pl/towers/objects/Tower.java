@@ -1,32 +1,32 @@
-package obiekty;
+package pl.towers.objects;
 import java.awt.*;
 
 /**
- * Klasa opisuj¹ca wiezê, jej cechy i mozliwe zachowanie
+ * Klasa opisujï¿½ca wiezï¿½, jej cechy i mozliwe zachowanie
  * (np. kolizja z pociskiem spowoduje zmniejszenie zycia).
- * @author Micha³
+ * @author Michaï¿½
  *
  */
-public class Wieza extends Wyrzutnia{
+public class Tower extends Launcher {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
 	private final int INITIAL_LIFE = 100;
 	protected final int TOWER_WIDTH = 50;
 	protected final int TOWER_HEIGHT = 90;
 	protected final int LEFT_TOWER_X = 25;
-	protected final int RIGHT_TOWER_X = Plansza.SZEROKOSC-100;
-	private final int TOWER_Y = Plansza.WYSOKOSC-TOWER_HEIGHT;	
+	protected final int RIGHT_TOWER_X = Board.SZEROKOSC-100;
+	private final int TOWER_Y = Board.WYSOKOSC-TOWER_HEIGHT;
 	private final int BRICK_LENGTH = 12;
 	private final int BRICK_HEIGHT = 5;
-	private final int TOWER_END = 40; //uzyte przy rysowaniu cegie³ aby w co drugim rzêdzie narysowaæ na koncu po³ówke ceg³y
+	private final int TOWER_END = 40; //uzyte przy rysowaniu cegieï¿½ aby w co drugim rzï¿½dzie narysowaï¿½ na koncu poï¿½ï¿½wke cegï¿½y
 	private final int TOWER_END2 = 30;
 	
-	protected int life;	//poziom ¿ycia dla wie¿y przypisujemy 100 i zmniejszamy w zaleznosci od pocisku ktory w nas trafil
+	protected int life;	//poziom ï¿½ycia dla wieï¿½y przypisujemy 100 i zmniejszamy w zaleznosci od pocisku ktory w nas trafil
 						
-	public int playerNumber; //0-dla wie¿y znajdujacej sie po lewej stronie
-					//1-dla wie¿y znajduj¹cej siê po prawej stronie
+	public int playerNumber; //0-dla wieï¿½y znajdujacej sie po lewej stronie
+					//1-dla wieï¿½y znajdujï¿½cej siï¿½ po prawej stronie
 	
-	public Wieza(int playerNumber){
+	public Tower(int playerNumber){
 		super(playerNumber);
 		life=INITIAL_LIFE;
 		this.playerNumber=playerNumber;
@@ -37,7 +37,7 @@ public class Wieza extends Wyrzutnia{
 	
 	public void paint(Graphics2D g){
 		super.paint(g);
-		boolean i=true; //zmienna pomocnicza przy rysowaniu cegie³ tak aby nie by³y w jednym rzêdzie
+		boolean i=true; //zmienna pomocnicza przy rysowaniu cegieï¿½ tak aby nie byï¿½y w jednym rzï¿½dzie
 		if (playerNumber==GRACZ1){
 			g.setColor(Color.gray);
 			if(!debugMode) g.fillRect(LEFT_TOWER_X, TOWER_Y, TOWER_WIDTH, TOWER_HEIGHT);
@@ -82,8 +82,8 @@ public class Wieza extends Wyrzutnia{
 		}
 	}
 	/**
-	 * Metoda zmiejszaj¹ca ¿ywotnosc wiezy jako parametr
-	 * jest podawana liczba o jak¹ zycie ma zostac zmnejszone
+	 * Metoda zmiejszajï¿½ca ï¿½ywotnosc wiezy jako parametr
+	 * jest podawana liczba o jakï¿½ zycie ma zostac zmnejszone
 	 * @param wartosc
 	 */
 	public void decreaseLife(int value){
@@ -91,7 +91,7 @@ public class Wieza extends Wyrzutnia{
 	}
 	
 	/**
-	 * Metoda zwraca iloœæ ¿ycia
+	 * Metoda zwraca iloï¿½ï¿½ ï¿½ycia
 	 * @return
 	 */
 	public int getLife(){

@@ -1,10 +1,10 @@
-package obiekty;
+package pl.towers.objects;
 /**
  * Interface Planszy
- * @author Micha³
+ * @author Michaï¿½
  *
  */
-public interface Plansza {
+public interface Board {
 	public static final int SZEROKOSC = 800;
 	public static final int WYSOKOSC = 600;
 	public static final int SZYBKOSC = 4;

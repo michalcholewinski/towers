@@ -1,22 +1,22 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 
 import static java.lang.Math.*;
 
-public class Wzgorze {
+public class Hill {
 	private final int START_PROCENT = 16;
 	private final int MAX_PROCENT = 100;
-	private final int NUMBER_OF_POINTS = (Plansza.SZEROKOSC * START_PROCENT)
+	private final int NUMBER_OF_POINTS = (Board.SZEROKOSC * START_PROCENT)
 			/ MAX_PROCENT;
-	private final int START_Y = Plansza.WYSOKOSC - 30;
+	private final int START_Y = Board.WYSOKOSC - 30;
 	private final int MAX_NUMBER_OF_BALLS = 200;
-	private final int START_X = (Plansza.SZEROKOSC * START_PROCENT)
+	private final int START_X = (Board.SZEROKOSC * START_PROCENT)
 			/ MAX_PROCENT;
 	private final int HILL_LENGTH = START_X + (4 * NUMBER_OF_POINTS);
 
-	int[] wspX = new int[NUMBER_OF_POINTS];// wspó³rzêdne X krawêdzi wzgórza
-	int[] wspY = new int[NUMBER_OF_POINTS];// wspó³rzêdne Y krawêdzi wzgórza
+	int[] wspX = new int[NUMBER_OF_POINTS];// wspï¿½rzï¿½dne X krawï¿½dzi wzgï¿½rza
+	int[] wspY = new int[NUMBER_OF_POINTS];// wspï¿½rzï¿½dne Y krawï¿½dzi wzgï¿½rza
 	
 	private int[] tableX = new int[MAX_NUMBER_OF_BALLS];
 	private int[] tableY = new int[MAX_NUMBER_OF_BALLS];
@@ -24,12 +24,12 @@ public class Wzgorze {
 	private boolean debugMode=false;
 
 	/**
-	 * Konstruktor zajmuje sie wygenerowaniem punktów które wyznaczaj¹ krawêdzie
-	 * wzgórza
+	 * Konstruktor zajmuje sie wygenerowaniem punktï¿½w ktï¿½re wyznaczajï¿½ krawï¿½dzie
+	 * wzgï¿½rza
 	 */
-	public Wzgorze() {
+	public Hill() {
 		int zm = 0, i = 0, x, pom = 0, pom1 = 0; // zmienne pomocnicze przy
-													// rysowaniu wzgórza
+													// rysowaniu wzgï¿½rza
 
 		for (x = START_X; x < HILL_LENGTH; x += 4) {
 			wspX[i] = x;
@@ -65,9 +65,9 @@ public class Wzgorze {
 				g.setColor(Color.black);
 				if(debugMode) g.drawString("LICZBA KULEK: " + numberOfBalls, 400, 220);
 				g.setColor(Color.DARK_GRAY);
-				g.fillOval(tableX[i] - (Plansza.SREDNICA / 2), tableY[i]
-						- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-						Plansza.SREDNICA);
+				g.fillOval(tableX[i] - (Board.SREDNICA / 2), tableY[i]
+						- (Board.SREDNICA / 2), Board.SREDNICA,
+						Board.SREDNICA);
 			}
 		}
 

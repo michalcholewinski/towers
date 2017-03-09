@@ -1,10 +1,10 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 import java.util.*;
-import dodatki.*;
+import pl.towers.additions.*;
 
-public class Tlo {
+public class Background {
 	private final int GOOD_WEATHER = 0;
 	private final int NIGHT = 1;
 	private final int NUMBER_OF_SCENERY = 2;
@@ -21,7 +21,7 @@ public class Tlo {
 
 	private int bgNumber = 1;
 
-	public Tlo() {
+	public Background() {
 		rand= new Random();
 		bgNumber=rand.nextInt(NUMBER_OF_SCENERY);
 		if (bgNumber == GOOD_WEATHER) {
@@ -40,7 +40,7 @@ public class Tlo {
 
 	
 	/**
-	 * Aktualizacja t³a
+	 * Aktualizacja tï¿½a
 	 */
 	public void update() {
 		if (bgNumber == GOOD_WEATHER) {
@@ -54,12 +54,12 @@ public class Tlo {
 		if (!debugMode) {
 			if (bgNumber == GOOD_WEATHER) {
 				g.setColor(Color.cyan);
-				g.fillRect(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
+				g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
 				sun.paint(g);
 				clouds.paint(g);
 			} else if (bgNumber == NIGHT) {
 				g.setColor(Color.blue);
-				g.fillRect(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
+				g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
 				moon.paint(g);
 				for (int i = 0; i < NUMBER_OF_STARS; i++) {
 					star[i].paint(g);
@@ -69,7 +69,7 @@ public class Tlo {
 		}
 		else{
 			g.setColor(Color.white);
-			g.fillRect(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
+			g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Tlo {
 	}
 	
 	/**
-	 * Metoda zwraca numer scenerii (Jesli 0 to ³adna pogoda i dzien, jesli 1 to noc)
+	 * Metoda zwraca numer scenerii (Jesli 0 to ï¿½adna pogoda i dzien, jesli 1 to noc)
 	 * @return bgNumber
 	 */
 	public int getBgNumber(){

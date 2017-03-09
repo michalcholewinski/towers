@@ -1,4 +1,4 @@
-package muzyka;
+package pl.towers.sound;
 /*
  *	SimpleAudioPlayer.java
  *
@@ -37,60 +37,34 @@ package muzyka;
 |<---            this code is formatted to fit into 80 columns             --->|
 */
 
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-
-/**
- * Klasa odpowiedzialna za odtwarzanie dzwiêków uderzenia
- * 
- *
- */
-public class ShotSound extends Thread{
+public class SimpleAudioPlayer extends Thread{
 	private static final int	EXTERNAL_BUFFER_SIZE = 128000;
-	private final String HIT_PLAYER_SOUND_NAME = "explode.wav";
-	private final String HIT_ANOTHER_BULLET_SOUND_NAME = "explode2.wav";
-	private final int HILL = 0; //s³u¿y do sprawdzania czy by³a kolizja ze wzgórzem,
-	private final int PLAYER = 1; //czy z jedn¹ z wie¿
+
+	private String	strFilename;
+	private File	soundFile;
+	private boolean file=true;
+	private boolean pause;
 	
 	
-	String	strFilename;
-	File	soundFile;
-	private boolean shot;
-	
-	public ShotSound(){
-		strFilename=HIT_PLAYER_SOUND_NAME;
-		shot=false;
-	}
-
-
-
-
-	public void setShot(boolean shot){
-		this.shot=shot;
+	public SimpleAudioPlayer(String soundName){
+		strFilename=soundName;
+		pause=false;
 	}
 	
+
 	
-	public void setFilename(int which){
-		if(which==HILL){
-			strFilename=HIT_PLAYER_SOUND_NAME;
-		}
-		else if(which==PLAYER){
-			strFilename=HIT_ANOTHER_BULLET_SOUND_NAME;
-		}
-	}
-	
-	public void music(){
+	public void run(){
 		
-
+	try{
 		soundFile = new File(strFilename);
-	
+	}catch(Exception e){
+		file=false;
+	}
+	while(file!=false){	
 		AudioInputStream	audioInputStream = null;
 		try
 		{
@@ -98,11 +72,12 @@ public class ShotSound extends Thread{
 		}
 		catch (Exception e)
 		{
-			
-			e.printStackTrace();
-			System.exit(1);
+			file=false;
+			break;
+			//e.printStackTrace();
+			//System.exit(1);
 		}
-
+		
 		
 		AudioFormat	audioFormat = audioInputStream.getFormat();
 
@@ -113,7 +88,6 @@ public class ShotSound extends Thread{
 		{
 			line = (SourceDataLine) AudioSystem.getLine(info);
 
-			
 			line.open(audioFormat);
 		}
 		catch (LineUnavailableException e)
@@ -127,14 +101,14 @@ public class ShotSound extends Thread{
 			System.exit(1);
 		}
 
-	
+		
 		line.start();
-
 
 		int	nBytesRead = 0;
 		byte[]	abData = new byte[EXTERNAL_BUFFER_SIZE];
 		while (nBytesRead != -1)
 		{
+			while(pause);
 			try
 			{
 				nBytesRead = audioInputStream.read(abData, 0, abData.length);
@@ -150,19 +124,16 @@ public class ShotSound extends Thread{
 		}
 
 		line.drain();
-
-		line.close();
 		
+		line.close();
+	}
 	//	System.exit(0);
 	}
-	
-	public void run(){
-		while(true){
-			if(shot){
-				music();
-				shot=false;
-			}
-		}
-	}
 
+	
+
+	public void setPause(boolean pause){
+		this.pause=pause;
+	}
+	
 }

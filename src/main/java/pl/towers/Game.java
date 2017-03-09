@@ -1,7 +1,7 @@
 package pl.towers;
 
-import dodatki.BufferedInputFile;
-import obiekty.Plansza;
+import pl.towers.additions.BufferedInputFile;
+import pl.towers.objects.Board;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class Game extends JFrame implements ActionListener {
     private String imieGracz1;
     private String imieGracz2;
 
-    private JLabel gracz1String = new JLabel(" Gracz 1", SwingConstants.LEFT);
+    private JLabel gracz1String = new JLabel(" Player 1", SwingConstants.LEFT);
     private JTextField nameFieldPlayer1 = new JTextField("Gracz1");
     private JLabel gracz2String = new JLabel(" Gracz2", SwingConstants.RIGHT);
     private JTextField nameFieldPlayer2 = new JTextField("Gracz2");
@@ -39,22 +39,22 @@ public class Game extends JFrame implements ActionListener {
     public Game() {
         super("TOWERS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(Plansza.SZEROKOSC, Plansza.WYSOKOSC);
-        nameFieldPlayer1.setPreferredSize(new Dimension(Plansza.SZEROKOSC / 4,
+        setSize(Board.SZEROKOSC, Board.WYSOKOSC);
+        nameFieldPlayer1.setPreferredSize(new Dimension(Board.SZEROKOSC / 4,
                 20));
-        nameFieldPlayer2.setPreferredSize(new Dimension(Plansza.SZEROKOSC / 4,
+        nameFieldPlayer2.setPreferredSize(new Dimension(Board.SZEROKOSC / 4,
                 20));
         start.setPreferredSize(new Dimension(100, 50));
         powrot.setPreferredSize(new Dimension(100, 50));
         start.addActionListener(this);
         powrot.addActionListener(this);
 
-        nowaGra.setPreferredSize(new Dimension((Plansza.SZEROKOSC / 4) - 10,
+        nowaGra.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10,
                 100));
-        pomoc.setPreferredSize(new Dimension((Plansza.SZEROKOSC / 4) - 10, 100));
-        autorzy.setPreferredSize(new Dimension((Plansza.SZEROKOSC / 4) - 10,
+        pomoc.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10, 100));
+        autorzy.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10,
                 100));
-        koniec.setPreferredSize(new Dimension((Plansza.SZEROKOSC / 4) - 10, 100));
+        koniec.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10, 100));
 
         nowaGra.addActionListener(this);
         pomoc.addActionListener(this);
@@ -143,7 +143,7 @@ public class Game extends JFrame implements ActionListener {
         panel = new JPanel();
         String text = "";
         try {
-            text = BufferedInputFile.read("plik.txt");
+            text = BufferedInputFile.read("help.txt");
         } catch (IOException e) {
             text = new String("Brak pliku z tekstem pomocy!");
         }
@@ -164,7 +164,7 @@ public class Game extends JFrame implements ActionListener {
         panel = new JPanel();
         String text = "";
         try {
-            text = BufferedInputFile.read("autorzy.txt");
+            text = BufferedInputFile.read("author.txt");
         } catch (IOException e) {
             text = new String("Brak pliku z tekstem pomocy!");
         }

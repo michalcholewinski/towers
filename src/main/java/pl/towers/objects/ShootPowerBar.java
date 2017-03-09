@@ -1,23 +1,23 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 
 /**
- * Klasa opisuj¹ca pasek mocy strza³u dla gracza
+ * Klasa opisujï¿½ca pasek mocy strzaï¿½u dla gracza
  * 
- * @author Micha³
+ * @author Michaï¿½
  * 
  */
-public class PasekMocyStrzalu {// extends Thread{
+public class ShootPowerBar {// extends Thread{
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
 	private final int INDICATOR_WIDTH = 10;
 	private final int INDICATOR_HEIGTH = 100;
 	private final int LEFT_POWER_INDICATOR_X = 1;
-	private final int RIGHT_POWER_INDICATOR_X = Plansza.SZEROKOSC
+	private final int RIGHT_POWER_INDICATOR_X = Board.SZEROKOSC
 			- INDICATOR_WIDTH - 10;
-	private final int POWER_INDICATOR_Y = Plansza.WYSOKOSC - 130;
-	private final int FILL_POWER_INDICATOR_Y = Plansza.WYSOKOSC - 30;
+	private final int POWER_INDICATOR_Y = Board.WYSOKOSC - 130;
+	private final int FILL_POWER_INDICATOR_Y = Board.WYSOKOSC - 30;
 	private final int MAX_POWER = 100;
 	private final int DOWN = 0;
 	private final int UP = 1;
@@ -30,7 +30,7 @@ public class PasekMocyStrzalu {// extends Thread{
 	private boolean debugMode=false;
 	private int direction = DOWN, delay = 0;
 
-	public PasekMocyStrzalu(int playerNumber) {
+	public ShootPowerBar(int playerNumber) {
 		this.playerNumber = playerNumber;
 		if (playerNumber == GRACZ1) {
 			power = MAX_POWER;
@@ -40,7 +40,7 @@ public class PasekMocyStrzalu {// extends Thread{
 	}
 
 	/**
-	 * Metoda aktualizuj¹ca pasek tak aby by³ animowany
+	 * Metoda aktualizujï¿½ca pasek tak aby byï¿½ animowany
 	 */
 	public void update() {
 		delay++;
@@ -103,7 +103,7 @@ public class PasekMocyStrzalu {// extends Thread{
 	}
 
 	/**
-	 * Metoda zwracaj¹ca moc jak¹ aktualnie wskazuje pasek mocy strza³u
+	 * Metoda zwracajï¿½ca moc jakï¿½ aktualnie wskazuje pasek mocy strzaï¿½u
 	 * 
 	 * @return power
 	 */

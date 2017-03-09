@@ -1,9 +1,9 @@
 package pl.towers;
 
-import dodatki.Pause;
-import muzyka.ShotSound;
-import muzyka.SimpleAudioPlayer;
-import obiekty.*;
+import pl.towers.additions.Pause;
+import pl.towers.sound.ShotSound;
+import pl.towers.sound.SimpleAudioPlayer;
+import pl.towers.objects.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
-public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
+public class Towers extends Canvas implements Board, KeyListener, Runnable {
 
 	private static final long serialVersionUID = 1L;
 	private final int GRACZ1 = 0;
@@ -29,14 +29,14 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 	private boolean debugMode = false;
 
 	public BufferStrategy strategia; // zmienna u�ywana przy buforowaniu
-	private Wzgorze wzgorze;
-	private StrzalkaWiatru wiatr;
-	private Gracz gracz, gracz1;
-	private Pocisk pocisk, pocisk1;
-	private Tlo tlo;
-	private PasekZycia pasek1, pasek2;
-	private PasekMocyStrzalu pasekMocy, pasekMocy1;
-	private EkranKoncowy end;
+	private Hill hill;
+	private WindArrow wiatr;
+	private Player gracz, gracz1;
+	private Bullet bullet, bullet1;
+	private Background background;
+	private LifeBar pasek1, pasek2;
+	private ShootPowerBar pasekMocy, pasekMocy1;
+	private EndScreen end;
 	private SimpleAudioPlayer nuta;
 	private ShotSound uderzenie;
 	private Pause ekranPauza;
@@ -46,12 +46,12 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 	public Towers() {
 		okno = new JFrame(">>>TOWERS<<<");
 		JPanel panel = (JPanel) okno.getContentPane();
-		setBounds(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
-		panel.setPreferredSize(new Dimension(Plansza.SZEROKOSC,
-				Plansza.WYSOKOSC));
+		setBounds(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
+		panel.setPreferredSize(new Dimension(Board.SZEROKOSC,
+				Board.WYSOKOSC));
 		panel.setLayout(null);
 		panel.add(this);
-		okno.setBounds(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
+		okno.setBounds(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
 		okno.setVisible(true);
 		okno.addWindowListener(new WindowAdapter() {
 			@SuppressWarnings("deprecation")
@@ -74,19 +74,19 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 	
 	
 	public void init(String gracz1imie, String gracz2imie){
-		wzgorze = new Wzgorze();
-		wiatr = new StrzalkaWiatru();
+		hill = new Hill();
+		wiatr = new WindArrow();
 		wiatr.start();
-		gracz = new Gracz(GRACZ1, gracz1imie);
-		gracz1 = new Gracz(GRACZ2, gracz2imie);
-		pocisk = new Pocisk(GRACZ1);
-		pocisk1 = new Pocisk(GRACZ2);
-		tlo = new Tlo();
-		pasek1 = new PasekZycia(GRACZ1, gracz.getPlayerName());
-		pasek2 = new PasekZycia(GRACZ2, gracz1.getPlayerName());
-		pasekMocy = new PasekMocyStrzalu(GRACZ1);
-		pasekMocy1 = new PasekMocyStrzalu(GRACZ2);
-		end = new EkranKoncowy();
+		gracz = new Player(GRACZ1, gracz1imie);
+		gracz1 = new Player(GRACZ2, gracz2imie);
+		bullet = new Bullet(GRACZ1);
+		bullet1 = new Bullet(GRACZ2);
+		background = new Background();
+		pasek1 = new LifeBar(GRACZ1, gracz.getPlayerName());
+		pasek2 = new LifeBar(GRACZ2, gracz1.getPlayerName());
+		pasekMocy = new ShootPowerBar(GRACZ1);
+		pasekMocy1 = new ShootPowerBar(GRACZ2);
+		end = new EndScreen();
 		nuta = new SimpleAudioPlayer(SOUND_NAME);
 		uderzenie = new ShotSound();
 		wiatr.setPriority(1);
@@ -100,53 +100,53 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 
 	public void checkColission() {
 		Rectangle playerBound = gracz.getBounds();
-		Rectangle bullet = pocisk1.getBounds();
+		Rectangle bullet = bullet1.getBounds();
 		Rectangle playerBound1 = gracz1.getBounds();
-		Rectangle bullet1 = pocisk.getBounds();
-		Polygon hill = wzgorze.getBounds();
+		Rectangle bullet1 = this.bullet.getBounds();
+		Polygon hill = this.hill.getBounds();
 		if (bullet.intersects(playerBound)) {
-			if (pocisk1.isFired()) {
+			if (this.bullet1.isFired()) {
 				gracz.setDecreaseLife(true);
 			}
 
 		}
 		if (bullet1.intersects(playerBound1)) {
-			if (pocisk.isFired()) {
+			if (this.bullet.isFired()) {
 				gracz1.setDecreaseLife(true);
 			}
 
 		}
 		if (bullet1.intersects(bullet)) {
-			pocisk.collision(BULLET);
-			pocisk1.collision(BULLET);
+			this.bullet.collision(BULLET);
+			this.bullet1.collision(BULLET);
 		}
 
 		if (hill.intersects(bullet)) {
-			wzgorze.collision(pocisk1.getPolozenieX(), pocisk1.getPolozenieY());
-			pocisk1.collision(HILL);
+			this.hill.collision(this.bullet1.getPolozenieX(), this.bullet1.getPolozenieY());
+			this.bullet1.collision(HILL);
 			uderzenie.setFilename(HILL);
 			uderzenie.setShot(true);
 		}
 		if (hill.intersects(bullet1)) {
-			wzgorze.collision(pocisk.getPolozenieX(), pocisk.getPolozenieY());
-			pocisk.collision(HILL);
+			this.hill.collision(this.bullet.getPolozenieX(), this.bullet.getPolozenieY());
+			this.bullet.collision(HILL);
 			uderzenie.setFilename(HILL);
 			uderzenie.setShot(true);
 		}
 	}
 
 	public void setDebugMode() {
-		wzgorze.setDebugMode(debugMode);
+		hill.setDebugMode(debugMode);
 		gracz.setDebugMode(debugMode);
 		gracz1.setDebugMode(debugMode);
 		wiatr.setDebugMode(debugMode);
 		pasek1.setDebugMode(debugMode);
 		pasek2.setDebugMode(debugMode);
-		tlo.setDebugMode(debugMode);
+		background.setDebugMode(debugMode);
 		pasekMocy.setDebugMode(debugMode);
 		pasekMocy1.setDebugMode(debugMode);
-		pocisk.setDebugMode(debugMode);
-		pocisk1.setDebugMode(debugMode);
+		bullet.setDebugMode(debugMode);
+		bullet1.setDebugMode(debugMode);
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -184,23 +184,23 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 
 	public void paintWorld() {
 		Graphics2D g = (Graphics2D) strategia.getDrawGraphics();
-		tlo.paint(g);
+		background.paint(g);
 
 		if (debugMode) {
 			g.setColor(Color.black);
 			g.drawString(
-					"K�t nachylenia: " + Integer.toString((int) pocisk.angle),
+					"K�t nachylenia: " + Integer.toString((int) bullet.angle),
 					60, 250);
 			g.drawString(
-					"K�t nachylenia: " + Integer.toString((int) pocisk1.angle),
+					"K�t nachylenia: " + Integer.toString((int) bullet1.angle),
 					640, 250);
 		}
-		wzgorze.paint(g);
+		hill.paint(g);
 		wiatr.paint(g);
 		gracz.paint(g);
 		gracz1.paint(g);
-		pocisk.paint(g);
-		pocisk1.paint(g);
+		bullet.paint(g);
+		bullet1.paint(g);
 		pasek1.paint(g);
 		pasek2.paint(g);
 		pasekMocy.paint(g);
@@ -219,60 +219,60 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 		nuta.setPause(pauza);
 		if (!pauza) {
 			setDebugMode();
-			tlo.update();
-			wzgorze.update();
-			wiatr.setNight(tlo.isNight());
+			background.update();
+			hill.update();
+			wiatr.setNight(background.isNight());
 			if (gracz.isWystrzelono()) {
-				if (!pocisk.isCollision()) {
-					pocisk.setFired(true);
+				if (!bullet.isCollision()) {
+					bullet.setFired(true);
 				} else {
-					pocisk.setCollision(gracz.isKeyReleased());
+					bullet.setCollision(gracz.isKeyReleased());
 				}
 			}
 			if (gracz1.isWystrzelono()) {
-				if (!pocisk1.isCollision()) {
-					pocisk1.setFired(true);
+				if (!bullet1.isCollision()) {
+					bullet1.setFired(true);
 				} else {
-					pocisk1.setCollision(gracz1.isKeyReleased());
+					bullet1.setCollision(gracz1.isKeyReleased());
 				}
 			}
 			if (gracz.isDecreaseLife()) {
 				gracz.collision();
-				pocisk1.collision(PLAYER);
+				bullet1.collision(PLAYER);
 				uderzenie.setFilename(PLAYER);
 				uderzenie.setShot(true);
 			}
 			if (gracz1.isDecreaseLife()) {
 				gracz1.collision();
-				pocisk.collision(PLAYER);
+				bullet.collision(PLAYER);
 				uderzenie.setFilename(PLAYER);
 				uderzenie.setShot(true);
 			}
-			pocisk.ustawPolozeniePoczatkowe(gracz.getCenterline());
-			pocisk.setSpeed(pasekMocy.getPower());
-			pocisk.update();
-			pocisk.calculateBulletSpeed(wiatr.getPower(), wiatr.getDirection());
-			pocisk.angle = gracz.getCelownik();
-			pocisk.setNight(tlo.isNight());
+			bullet.ustawPolozeniePoczatkowe(gracz.getCenterline());
+			bullet.setSpeed(pasekMocy.getPower());
+			bullet.update();
+			bullet.calculateBulletSpeed(wiatr.getPower(), wiatr.getDirection());
+			bullet.angle = gracz.getCelownik();
+			bullet.setNight(background.isNight());
 
-			pocisk1.ustawPolozeniePoczatkowe(gracz1.getCenterline());
-			pocisk1.setSpeed(pasekMocy1.getPower());
-			pocisk1.update();
-			pocisk1.calculateBulletSpeed(wiatr.getPower(), wiatr.getDirection());
-			pocisk1.angle = gracz1.getCelownik();
-			pocisk1.setNight(tlo.isNight());
+			bullet1.ustawPolozeniePoczatkowe(gracz1.getCenterline());
+			bullet1.setSpeed(pasekMocy1.getPower());
+			bullet1.update();
+			bullet1.calculateBulletSpeed(wiatr.getPower(), wiatr.getDirection());
+			bullet1.angle = gracz1.getCelownik();
+			bullet1.setNight(background.isNight());
 
 			pasek1.setLife(gracz.getLife());
 
 			pasek2.setLife(gracz1.getLife());
-			pasek1.setNight(tlo.isNight());
-			pasek2.setNight(tlo.isNight());
+			pasek1.setNight(background.isNight());
+			pasek2.setNight(background.isNight());
 
 			if (!end.isShow()) {
 				pasekMocy.update();
 				pasekMocy1.update();
-				pasekMocy.setNight(tlo.isNight());
-				pasekMocy1.setNight(tlo.isNight());
+				pasekMocy.setNight(background.isNight());
+				pasekMocy1.setNight(background.isNight());
 			} else {
 				endGame++;
 			}
@@ -303,7 +303,7 @@ public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
 			checkColission();
 			paintWorld();
 			try {
-				Thread.sleep(Plansza.SZYBKOSC);
+				Thread.sleep(Board.SZYBKOSC);
 			} catch (InterruptedException e) {
 			}
 		}

@@ -1,20 +1,20 @@
-package dodatki;
+package pl.towers.additions;
 import java.awt.*;
 
-import obiekty.Plansza;
+import pl.towers.objects.Board;
 
 public class Pause {
-	private final int TRANSPARENT_DEGREE = 8; // Skala przezroczystosci t³a
-	private final int BG_COMPONENT_RED = 86; // Sk³adowe RGB dla koloru t³a
+	private final int TRANSPARENT_DEGREE = 8; // Skala przezroczystosci tï¿½a
+	private final int BG_COMPONENT_RED = 86; // Skï¿½adowe RGB dla koloru tï¿½a
 	private final int BG_COMPONENT_GREEN = 153;
 	private final int BG_COMPONENT_BLUE = 156;
 	private final int FIRST_ARC_X = 15;
 	private final int FIRST_ARC_Y = 15;
 	private final int SECOND_ARC_X = 15;
-	private final int SECOND_ARC_Y = Plansza.WYSOKOSC - 80;
-	private final int THIRD_ARC_X = Plansza.SZEROKOSC - 60;
-	private final int THIRD_ARC_Y = Plansza.WYSOKOSC -80;
-	private final int FOURTH_ARC_X = Plansza.SZEROKOSC - 60;
+	private final int SECOND_ARC_Y = Board.WYSOKOSC - 80;
+	private final int THIRD_ARC_X = Board.SZEROKOSC - 60;
+	private final int THIRD_ARC_Y = Board.WYSOKOSC -80;
+	private final int FOURTH_ARC_X = Board.SZEROKOSC - 60;
 	private final int FOURTH_ARC_Y = 15;
 	private final int ARC_DIMENSION = 50;
 	private final int START_ANGLE = 0;
@@ -37,7 +37,7 @@ public class Pause {
 		
 			g.setColor(new Color(BG_COMPONENT_RED, BG_COMPONENT_GREEN,BG_COMPONENT_BLUE));
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,TRANSPARENT_DEGREE * 0.1f));
-			g.fillRect(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
+			g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
 			g.setColor(Color.yellow);
 			g.fillArc(FIRST_ARC_X, FIRST_ARC_Y, ARC_DIMENSION, ARC_DIMENSION,START_ANGLE, angle);
 			g.fillArc(SECOND_ARC_X, SECOND_ARC_Y, ARC_DIMENSION, ARC_DIMENSION,START_ANGLE, angle);

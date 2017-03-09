@@ -1,63 +1,63 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 
-import dodatki.WinnerString;
+import pl.towers.additions.WinnerString;
 
 /**
- * Klasa odpwiedzialna za pokazanie Ekranu koncowego z napisem WINNER i strza³k¹ wskazuj¹c¹ na gracza który wygra³
- * @author Micha³
+ * Klasa odpwiedzialna za pokazanie Ekranu koncowego z napisem WINNER i strzaï¿½kï¿½ wskazujï¿½cï¿½ na gracza ktï¿½ry wygraï¿½
+ * @author Michaï¿½
  *
  */
-public class EkranKoncowy {
+public class EndScreen {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
-	private final int RIGHT_WINNER_STRING_X = Plansza.SZEROKOSC - 120; // wspó³rzedna
+	private final int RIGHT_WINNER_STRING_X = Board.SZEROKOSC - 120; // wspï¿½rzedna
 																		// X
 																		// napisu
 																		// z
 																		// imieniem
 																		// GRACZA2
-																		// jeœli
-																		// wygra³
-	private final int LEFT_WINNER_STRING_X = 30; // wspó³rzedna X napisu z
+																		// jeï¿½li
+																		// wygraï¿½
+	private final int LEFT_WINNER_STRING_X = 30; // wspï¿½rzedna X napisu z
 													// imieniem GRACZA1 jesli
-													// wygra³
-	private final int WINNER_STRING_Y = Plansza.WYSOKOSC - 200; // wspó³rzedna Y
+													// wygraï¿½
+	private final int WINNER_STRING_Y = Board.WYSOKOSC - 200; // wspï¿½rzedna Y
 																// napisu z
 																// imieniem
-																// gracza który
-																// wygra³
-	private final int TRANSPARENT_DEGREE = 8; // Skala przezroczystosci t³a
-	private final int BG_COMPONENT_RED = 128; // Sk³adowe RGB dla koloru t³a
+																// gracza ktï¿½ry
+																// wygraï¿½
+	private final int TRANSPARENT_DEGREE = 8; // Skala przezroczystosci tï¿½a
+	private final int BG_COMPONENT_RED = 128; // Skï¿½adowe RGB dla koloru tï¿½a
 	private final int BG_COMPONENT_GREEN = 107;
 	private final int BG_COMPONENT_BLUE = 165;
-	private final int ARROW_COMPONENT_RED = 163; // Sk³adowe RGB dla koloru
-													// strza³ki
+	private final int ARROW_COMPONENT_RED = 163; // Skï¿½adowe RGB dla koloru
+													// strzaï¿½ki
 	private final int ARROW_COMPONENT_GREEN = 236;
 	private final int ARROW_COMPONENT_BLUE = 144;
 	private final int NUMBER_OF_POINTS = 8;
-	private final int DELAY = 2; // Opoznienie, im wieksze tym strza³ka wolniej
+	private final int DELAY = 2; // Opoznienie, im wieksze tym strzaï¿½ka wolniej
 									// sie porusza
 	private final int RIGHT = 1;
 	private final int LEFT = 0;
-	private final int BOUND = 25; // Skok strza³ki
-	private final int POINT_Y1L = Plansza.WYSOKOSC - 45,
-			POINT_Y2L = Plansza.WYSOKOSC - 45,
-			POINT_Y3L = Plansza.WYSOKOSC - 35,
-			POINT_Y4L = Plansza.WYSOKOSC - 60,
-			POINT_Y5L = Plansza.WYSOKOSC - 85,
-			POINT_Y6L = Plansza.WYSOKOSC - 75,
-			POINT_Y7L = Plansza.WYSOKOSC - 75, POINT_Y8L = 45;
-	private final int POINT_Y1R = Plansza.WYSOKOSC - 60,
-			POINT_Y2R = Plansza.WYSOKOSC - 35,
-			POINT_Y3R = Plansza.WYSOKOSC - 45,
-			POINT_Y4R = Plansza.WYSOKOSC - 45,
-			POINT_Y5R = Plansza.WYSOKOSC - 75,
-			POINT_Y6R = Plansza.WYSOKOSC - 75,
-			POINT_Y7R = Plansza.WYSOKOSC - 85,
-			POINT_Y8R = Plansza.WYSOKOSC - 60;
-	private final int MIDDLE = Plansza.SZEROKOSC / 2;
+	private final int BOUND = 25; // Skok strzaï¿½ki
+	private final int POINT_Y1L = Board.WYSOKOSC - 45,
+			POINT_Y2L = Board.WYSOKOSC - 45,
+			POINT_Y3L = Board.WYSOKOSC - 35,
+			POINT_Y4L = Board.WYSOKOSC - 60,
+			POINT_Y5L = Board.WYSOKOSC - 85,
+			POINT_Y6L = Board.WYSOKOSC - 75,
+			POINT_Y7L = Board.WYSOKOSC - 75, POINT_Y8L = 45;
+	private final int POINT_Y1R = Board.WYSOKOSC - 60,
+			POINT_Y2R = Board.WYSOKOSC - 35,
+			POINT_Y3R = Board.WYSOKOSC - 45,
+			POINT_Y4R = Board.WYSOKOSC - 45,
+			POINT_Y5R = Board.WYSOKOSC - 75,
+			POINT_Y6R = Board.WYSOKOSC - 75,
+			POINT_Y7R = Board.WYSOKOSC - 85,
+			POINT_Y8R = Board.WYSOKOSC - 60;
+	private final int MIDDLE = Board.SZEROKOSC / 2;
 	private final int POINT_X1L = MIDDLE - 30, POINT_X2L = MIDDLE + 1,
 			POINT_X3L = MIDDLE + 30;
 	private final int POINT_X1R = MIDDLE - 30, POINT_X2R = MIDDLE - 1,
@@ -78,7 +78,7 @@ public class EkranKoncowy {
 	private int[] strzalkaPrawoX = { POINT_X1R, POINT_X2R, POINT_X2R,
 			POINT_X3R, POINT_X3R, POINT_X2R, POINT_X2R, POINT_X1R };
 
-	public EkranKoncowy() {
+	public EndScreen() {
 		show = false;
 		direction = RIGHT;
 		winnerString = new WinnerString(BG_COMPONENT_RED, BG_COMPONENT_GREEN,
@@ -87,7 +87,7 @@ public class EkranKoncowy {
 	}
 
 	/**
-	 * Aktualizacja polozenia strzalki wskazuj¹cej ktory gracz wygra³
+	 * Aktualizacja polozenia strzalki wskazujï¿½cej ktory gracz wygraï¿½
 	 */
 	public void update() {
 		winnerString.update();
@@ -136,7 +136,7 @@ public class EkranKoncowy {
 					BG_COMPONENT_BLUE));
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 					TRANSPARENT_DEGREE * 0.1f));
-			g.fillRect(0, 0, Plansza.SZEROKOSC, Plansza.WYSOKOSC);
+			g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
 
 			g.setColor(Color.black);
 			if (playerNumber == GRACZ2) {
@@ -165,7 +165,7 @@ public class EkranKoncowy {
 	}
 
 	/**
-	 * Ustawienie numeru gracza który wygra³
+	 * Ustawienie numeru gracza ktï¿½ry wygraï¿½
 	 * 
 	 * @param playerNumber
 	 */
@@ -174,7 +174,7 @@ public class EkranKoncowy {
 	}
 
 	/**
-	 * Ustawienie imienia gracza który wygra³
+	 * Ustawienie imienia gracza ktï¿½ry wygraï¿½
 	 * 
 	 * @param playerName
 	 */
@@ -183,7 +183,7 @@ public class EkranKoncowy {
 	}
 
 	/**
-	 * Zasygnalizowanie ze gra zosta³a zakoñczona aby wyswietlic ekran koncowy
+	 * Zasygnalizowanie ze gra zostaï¿½a zakoï¿½czona aby wyswietlic ekran koncowy
 	 * 
 	 * @param show
 	 */
@@ -192,7 +192,7 @@ public class EkranKoncowy {
 	}
 
 	/**
-	 * Sprawdzenie czy ekran koncowy zosta³ wyswietlony
+	 * Sprawdzenie czy ekran koncowy zostaï¿½ wyswietlony
 	 * 
 	 * @return show
 	 */

@@ -1,17 +1,17 @@
-package dodatki;
+package pl.towers.additions;
 import java.awt.*;
 
-import obiekty.Plansza;
+import pl.towers.objects.Board;
 
 public class PauseString{
-	private final int MIDDLE = (Plansza.SZEROKOSC / 2)+100;
-	private final int BOTTOM = Plansza.WYSOKOSC - 100;
+	private final int MIDDLE = (Board.SZEROKOSC / 2)+100;
+	private final int BOTTOM = Board.WYSOKOSC - 100;
 	private final int P_POINTS = 9;
 	private final int A_POINTS = 9;
 	private final int U_POINTS = 11;
 	private final int Z_POINTS = 9;
 	private final int EGDE_OF_THE_SQUARE = 15;
-	private final int BG_COMPONENT_RED = 86; // Sk³adowe RGB dla koloru t³a
+	private final int BG_COMPONENT_RED = 86; // Skï¿½adowe RGB dla koloru tï¿½a
 	private final int BG_COMPONENT_GREEN = 153;
 	private final int BG_COMPONENT_BLUE = 156;
 	

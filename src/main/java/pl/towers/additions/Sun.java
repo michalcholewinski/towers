@@ -1,10 +1,10 @@
-package dodatki;
+package pl.towers.additions;
 
 import java.awt.*;
-import obiekty.*;
+import pl.towers.objects.*;
 /**
- * Klasa odpowiedzialna za rysowania S³oñca
- * @author Micha³
+ * Klasa odpowiedzialna za rysowania Sï¿½oï¿½ca
+ * @author Michaï¿½
  *
  */
 public class Sun {
@@ -26,13 +26,13 @@ public class Sun {
 	
 	
 	/**
-	 * Aktualizacja po³o¿enia s³oñca
+	 * Aktualizacja poï¿½oï¿½enia sï¿½oï¿½ca
 	 */
 	public void update(){
 		delay++;
 		if (delay % DELAY == 0) {
 			coordinateX++;
-			if(coordinateX>Plansza.SZEROKOSC){
+			if(coordinateX> Board.SZEROKOSC){
 				coordinateX=START_POSITION;
 			}
 		}

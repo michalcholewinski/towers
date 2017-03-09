@@ -1,12 +1,13 @@
-package dodatki;
+package pl.towers.additions;
 
 import java.awt.*;
 import java.util.*;
 
-import obiekty.Plansza;
+import pl.towers.objects.Board;
+
 /**
  * Klasa odpowiedzialna za rysowanie chmur
- * @author Micha³
+ * @author Michaï¿½
  *
  */
 public class Clouds {
@@ -26,8 +27,8 @@ public class Clouds {
 	public Clouds() {
 		for (int i = 0; i < NUMBER_OF_CLOUDS; i++) {
 
-			tabX[i] = rand.nextInt(Plansza.SZEROKOSC);//(int)Math.random()*Plansza.SZEROKOSC;
-			tabY[i] = rand.nextInt(Plansza.WYSOKOSC - DISTANCE_FROM_GROUND);
+			tabX[i] = rand.nextInt(Board.SZEROKOSC);//(int)Math.random()*Board.SZEROKOSC;
+			tabY[i] = rand.nextInt(Board.WYSOKOSC - DISTANCE_FROM_GROUND);
 			width[i] = MIN_WIDTH + rand.nextInt(MAX_WIDTH);
 			height[i] = MIX_HEIGHT + rand.nextInt(MAX_HEIGHT);
 
@@ -36,7 +37,7 @@ public class Clouds {
 	
 	
 	/**
-	 * Rysowanie chmur. Iloœæ chmur okreœlona jest w sta³ej NUMBER_OF_CLOUDS
+	 * Rysowanie chmur. Iloï¿½ï¿½ chmur okreï¿½lona jest w staï¿½ej NUMBER_OF_CLOUDS
 	 * @param g
 	 */
 	public void paint(Graphics2D g) {

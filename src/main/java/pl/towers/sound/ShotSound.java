@@ -1,4 +1,4 @@
-package muzyka;
+package pl.towers.sound;
 /*
  *	SimpleAudioPlayer.java
  *
@@ -48,34 +48,49 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 /**
- * Klasa odpowiedzalna za odtwarzanie muzyki w czasie gry
+ * Klasa odpowiedzialna za odtwarzanie dzwi�k�w uderzenia
  * 
  *
  */
-public class SimpleAudioPlayer extends Thread{
+public class ShotSound extends Thread{
 	private static final int	EXTERNAL_BUFFER_SIZE = 128000;
+	private final String HIT_PLAYER_SOUND_NAME = "explode.wav";
+	private final String HIT_ANOTHER_BULLET_SOUND_NAME = "explode2.wav";
+	private final int HILL = 0; //s�u�y do sprawdzania czy by�a kolizja ze wzg�rzem,
+	private final int PLAYER = 1; //czy z jedn� z wie�
+	
+	
+	String	strFilename;
+	File	soundFile;
+	private boolean shot;
+	
+	public ShotSound(){
+		strFilename=HIT_PLAYER_SOUND_NAME;
+		shot=false;
+	}
 
-	private String	strFilename;
-	private File	soundFile;
-	private boolean file=true;
-	private boolean pause;
-	
-	
-	public SimpleAudioPlayer(String soundName){
-		strFilename=soundName;
-		pause=false;
+
+
+
+	public void setShot(boolean shot){
+		this.shot=shot;
 	}
 	
-
 	
-	public void run(){
+	public void setFilename(int which){
+		if(which==HILL){
+			strFilename=HIT_PLAYER_SOUND_NAME;
+		}
+		else if(which==PLAYER){
+			strFilename=HIT_ANOTHER_BULLET_SOUND_NAME;
+		}
+	}
+	
+	public void music(){
 		
-	try{
+
 		soundFile = new File(strFilename);
-	}catch(Exception e){
-		file=false;
-	}
-	while(file!=false){	
+	
 		AudioInputStream	audioInputStream = null;
 		try
 		{
@@ -83,12 +98,11 @@ public class SimpleAudioPlayer extends Thread{
 		}
 		catch (Exception e)
 		{
-			file=false;
-			break;
-			//e.printStackTrace();
-			//System.exit(1);
+			
+			e.printStackTrace();
+			System.exit(1);
 		}
-		
+
 		
 		AudioFormat	audioFormat = audioInputStream.getFormat();
 
@@ -99,6 +113,7 @@ public class SimpleAudioPlayer extends Thread{
 		{
 			line = (SourceDataLine) AudioSystem.getLine(info);
 
+			
 			line.open(audioFormat);
 		}
 		catch (LineUnavailableException e)
@@ -112,14 +127,14 @@ public class SimpleAudioPlayer extends Thread{
 			System.exit(1);
 		}
 
-		
+	
 		line.start();
+
 
 		int	nBytesRead = 0;
 		byte[]	abData = new byte[EXTERNAL_BUFFER_SIZE];
 		while (nBytesRead != -1)
 		{
-			while(pause);
 			try
 			{
 				nBytesRead = audioInputStream.read(abData, 0, abData.length);
@@ -135,16 +150,19 @@ public class SimpleAudioPlayer extends Thread{
 		}
 
 		line.drain();
-		
+
 		line.close();
-	}
+		
 	//	System.exit(0);
 	}
-
 	
-
-	public void setPause(boolean pause){
-		this.pause=pause;
+	public void run(){
+		while(true){
+			if(shot){
+				music();
+				shot=false;
+			}
+		}
 	}
-	
+
 }

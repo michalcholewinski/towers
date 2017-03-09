@@ -1,4 +1,4 @@
-package dodatki;
+package pl.towers.additions;
 import java.io.*;
 
 public class BufferedInputFile {

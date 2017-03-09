@@ -1,17 +1,17 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-public class StrzalkaWiatru extends Wiatr {
+public class WindArrow extends Wind {
 	private final int POINT_Y1L = 40, POINT_Y2L = 40, POINT_Y3L = 35,
 			POINT_Y4L = 47, POINT_Y5L = 60, POINT_Y6L = 55, POINT_Y7L = 55,
 			POINT_Y8L = 40;
 	private final int POINT_Y1R = 47, POINT_Y2R = 35, POINT_Y3R = 40,
 			POINT_Y4R = 40, POINT_Y5R = 55, POINT_Y6R = 55, POINT_Y7R = 60,
 			POINT_Y8R = 47;
-	private final int MIDDLE = Plansza.SZEROKOSC / 2;
+	private final int MIDDLE = Board.SZEROKOSC / 2;
 	private final int POINT_X1L = MIDDLE - 20, POINT_X2L = MIDDLE + 10,
 			POINT_X3L = MIDDLE + 20;
 	private final int POINT_X1R = MIDDLE - 20, POINT_X2R = MIDDLE - 10,
@@ -25,7 +25,7 @@ public class StrzalkaWiatru extends Wiatr {
 	private final int STRING_Y = 15;
 	private final int REFRESH_TIME = 1000;
 	private final int STRONG_WIND = 10;
-	private final int MAX_TIME_STRONG_WIND = 5; //Maksymalnie wiatr moze wiaæ z si³¹ >10 przez 5 sekund
+	private final int MAX_TIME_STRONG_WIND = 5; //Maksymalnie wiatr moze wiaï¿½ z siï¿½ï¿½ >10 przez 5 sekund
 	
 	
 	private int[] wiatrLewoY = { POINT_Y1L, POINT_Y2L, POINT_Y3L, POINT_Y4L,
@@ -40,7 +40,7 @@ public class StrzalkaWiatru extends Wiatr {
 	private boolean night;
 	private boolean debugMode=false;
 	
-	public StrzalkaWiatru() {
+	public WindArrow() {
 		super();
 		rand = new Random();
 		night=false;
@@ -100,9 +100,9 @@ public class StrzalkaWiatru extends Wiatr {
 		g.setColor(Color.black);
 		if (night)
 			if(!debugMode) g.setColor(Color.white);
-		g.drawString(" Si³a Wiatru:  " + power, STRING_X, STRING_Y);
+		g.drawString(" Siï¿½a Wiatru:  " + power, STRING_X, STRING_Y);
 		g.setColor(Color.green);
-		// strza³ka w prawo
+		// strzaï¿½ka w prawo
 		if (direction == LEFT) {
 			if(!debugMode) g.fillPolygon(wiatrLewoX, wiatrLewoY, NUMBER_OF_POINTS);
 			else{
@@ -110,7 +110,7 @@ public class StrzalkaWiatru extends Wiatr {
 				g.drawPolygon(wiatrLewoX, wiatrLewoY, NUMBER_OF_POINTS);
 			}
 		}
-		// strza³ka w lewo
+		// strzaï¿½ka w lewo
 		else {
 			if(!debugMode) g.fillPolygon(wiatrPrawoX, wiatrPrawoY, NUMBER_OF_POINTS);
 			else {

@@ -1,12 +1,13 @@
-package dodatki;
+package pl.towers.additions;
 
 import java.awt.*;
 import java.util.*;
 
-import obiekty.Plansza;
+import pl.towers.objects.Board;
+
 /**
  * Klasa odpowiedzialna za wyrysowanie gwiazdy
- * @author Micha³
+ * @author Michaï¿½
  *
  */
 public class Star {
@@ -20,8 +21,8 @@ public class Star {
 	
 	public Star(){
 		rand=new Random();
-		coordinateX=rand.nextInt(Plansza.SZEROKOSC);
-		coordinateY=rand.nextInt(Plansza.WYSOKOSC);
+		coordinateX=rand.nextInt(Board.SZEROKOSC);
+		coordinateY=rand.nextInt(Board.WYSOKOSC);
 		tabX[0]=coordinateX;
 		tabY[0]=coordinateY;
 		tabX[1]=coordinateX+4;

@@ -1,10 +1,10 @@
-package obiekty;
+package pl.towers.objects;
 /**
- * Klasa opisuj¹ca wiatr. (Zmiana kierunku wiatru jest mozliwa tylko gdy moc wiatru spadnie do 0)
- * @author Micha³
+ * Klasa opisujï¿½ca wiatr. (Zmiana kierunku wiatru jest mozliwa tylko gdy moc wiatru spadnie do 0)
+ * @author Michaï¿½
  *
  */
-public class Wiatr extends Thread{
+public class Wind extends Thread{
 	protected final int LEFT = 0;
 	protected final int RIGHT = 1;
 	protected final int MAX_POWER = 16;
@@ -14,9 +14,9 @@ public class Wiatr extends Thread{
 	protected int power;//moc wiatru w skali 0-5, 0 oznacza ze nie wieje
 	
 	/**
-	 * Wiatr na "dzien dobry" nie wieje wcale;)
+	 * Wind na "dzien dobry" nie wieje wcale;)
 	 */
-	public Wiatr(){
+	public Wind(){
 		direction=LEFT;
 		power=0;
 		

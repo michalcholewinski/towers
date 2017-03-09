@@ -1,58 +1,58 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 
 /**
- * Klasa Wyrzutnia (Armatka) opisuje mozliwe zachowanie armatki z której pocisk
+ * Klasa Launcher (Armatka) opisuje mozliwe zachowanie armatki z ktï¿½rej pocisk
  * bedzie wystrzeliwany
  * 
- * @author Micha³
+ * @author Michaï¿½
  * 
  */
-public class Wyrzutnia {
+public class Launcher {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
 	private final int LEFT_POINT_X1 = 43;
 	private final int LEFT_POINT_X2 = 50;
 	private final int LEFT_POINT_X3 = 59;
-	private final int RIGHT_POINT_X1 = Plansza.SZEROKOSC - 82;
-	private final int RIGHT_POINT_X2 = Plansza.SZEROKOSC - 75;
-	private final int RIGHT_POINT_X3 = Plansza.SZEROKOSC - 66;
-	protected final int POINT_Y1 = Plansza.WYSOKOSC - 150;
-	private final int POINT_Y2 = Plansza.WYSOKOSC - 90;
+	private final int RIGHT_POINT_X1 = Board.SZEROKOSC - 82;
+	private final int RIGHT_POINT_X2 = Board.SZEROKOSC - 75;
+	private final int RIGHT_POINT_X3 = Board.SZEROKOSC - 66;
+	protected final int POINT_Y1 = Board.WYSOKOSC - 150;
+	private final int POINT_Y2 = Board.WYSOKOSC - 90;
 	private final int START_ANGLE = 0;
 	private final int ARC_ANGLE = 180;
 	private final int ARC_DIMENSION = 50;
 	private final int LEFT_ARC_X = 25;
-	private final int RIGHT_ARC_X = Plansza.SZEROKOSC - 100;
-	private final int ARC_Y = Plansza.WYSOKOSC - 115;
+	private final int RIGHT_ARC_X = Board.SZEROKOSC - 100;
+	private final int ARC_Y = Board.WYSOKOSC - 115;
 	private final int GUN_NUMBER_OF_POINTS = 3;
 	private final int AUXILIARY_LINE_LENGTH = 1;
 
 	protected int celownik; // 30-sto stopniowa skala, 0 -poziomo, 30-pionowo
-	// wyjasniaj¹c inaczej 0-strzal w lewo, 30- w górê
+	// wyjasniajï¿½c inaczej 0-strzal w lewo, 30- w gï¿½rï¿½
 	public int player; // 0 ten po lewej, 1 po prawej
 	protected boolean debugMode=false;
 	protected int polX[] = new int[3];
 	protected int polY[] = new int[3];
 	protected int[] centerline = new int[2]; /*
 											 * srodek odcinka na
-											 * wyrzutni.Wspó³rzedne srodka
-											 * miejsca z którego kulka bêdzie
+											 * wyrzutni.Wspï¿½rzedne srodka
+											 * miejsca z ktï¿½rego kulka bï¿½dzie
 											 * wystrzeliwana. Indeks 0
-											 * wspórzedna X, indeks 1
-											 * wspó³rzedna Y
+											 * wspï¿½rzedna X, indeks 1
+											 * wspï¿½rzedna Y
 											 */
 
 	private int[] auxiliaryLine = new int[2]; /*
-												 * wspórzêdna linii pomocniczej
-												 * pierwsz¹ wspó³rzêdn¹ jest
+												 * wspï¿½rzï¿½dna linii pomocniczej
+												 * pierwszï¿½ wspï¿½rzï¿½dnï¿½ jest
 												 * srodek wyznaczony wczesniej
-												 * Indeks 0 wspórzedna X, indeks
-												 * 1 wspó³rzedna Y
+												 * Indeks 0 wspï¿½rzedna X, indeks
+												 * 1 wspï¿½rzedna Y
 												 */
 
-	public Wyrzutnia(int playerNumber) {
+	public Launcher(int playerNumber) {
 		this.player = playerNumber;
 		celownik = 29;
 		if (playerNumber == GRACZ1) {
@@ -75,9 +75,9 @@ public class Wyrzutnia {
 	}
 
 	/**
-	 * Wyznaczenie wspó³rzednych srodka odcinka znajduj¹cego sie w dzia³ku.
-	 * Potrzebne zeby umiescic kulke na koñcu dzia³ka. Jako parametry przyjmuje
-	 * wspó³rzêde punktów miêdzy którymi chcemy wyznaczyæ œrodek.
+	 * Wyznaczenie wspï¿½rzednych srodka odcinka znajdujï¿½cego sie w dziaï¿½ku.
+	 * Potrzebne zeby umiescic kulke na koï¿½cu dziaï¿½ka. Jako parametry przyjmuje
+	 * wspï¿½rzï¿½de punktï¿½w miï¿½dzy ktï¿½rymi chcemy wyznaczyï¿½ ï¿½rodek.
 	 * 
 	 * @param x1
 	 * @param y1
@@ -85,15 +85,15 @@ public class Wyrzutnia {
 	 * @param y2
 	 */
 	public void designationCenterline(int x1, int y1, int x2, int y2) {
-		//wzór na wyznaczenie srodka odcinka
+		//wzï¿½r na wyznaczenie srodka odcinka
 		centerline[0] = (x1 + x2) / 2;
 		centerline[1] = (y1 + y2) / 2;
 
 	}
 	
 	/**
-	 * Metoda zwaraca wspó³rzedne srodka odcinka. Z tego miejsca bedzie
-	 * startowa³a kulka
+	 * Metoda zwaraca wspï¿½rzedne srodka odcinka. Z tego miejsca bedzie
+	 * startowaï¿½a kulka
 	 * 
 	 * @return srodekOdcinka
 	 */
@@ -102,9 +102,9 @@ public class Wyrzutnia {
 	}
 
 	/**
-	 * Rekurencyjna metoda do wyznaczania wspó³rzêdnych pomocniczej linii.
-	 * Parametry x1 i y1 oznaczaj¹ wspó³rzêdne srodka tej linii (Podajemy
-	 * wspó³rzedne srodka odcinka), x2 i y2 to wspó³rzêdne pocz¹tku linii
+	 * Rekurencyjna metoda do wyznaczania wspï¿½rzï¿½dnych pomocniczej linii.
+	 * Parametry x1 i y1 oznaczajï¿½ wspï¿½rzï¿½dne srodka tej linii (Podajemy
+	 * wspï¿½rzedne srodka odcinka), x2 i y2 to wspï¿½rzï¿½dne poczï¿½tku linii
 	 * pomocniczej
 	 * 
 	 * @param x1
@@ -116,7 +116,7 @@ public class Wyrzutnia {
 		int[] pom = new int[2];
 
 		licz++;
-		//przekszta³cony wzór na wyznaczenie srodka odcinka
+		//przeksztaï¿½cony wzï¿½r na wyznaczenie srodka odcinka
 		pom[0] = ((2 * x1) - x2);
 		pom[1] = ((2 * y1) - y2);
 		if (licz < AUXILIARY_LINE_LENGTH) { // Warunek zakonczenia
@@ -143,13 +143,13 @@ public class Wyrzutnia {
 			if(!debugMode) g.fillArc(LEFT_ARC_X, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
 					START_ANGLE, ARC_ANGLE);
 			g.setColor(Color.LIGHT_GRAY);
-			g.drawOval(centerline[0] - (Plansza.SREDNICA / 2), centerline[1]
-					- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-					Plansza.SREDNICA);
+			g.drawOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
+					- (Board.SREDNICA / 2), Board.SREDNICA,
+					Board.SREDNICA);
 			g.setColor(Color.DARK_GRAY);
-			if(!debugMode) g.fillOval(centerline[0] - (Plansza.SREDNICA / 2), centerline[1]
-					- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-					Plansza.SREDNICA);
+			if(!debugMode) g.fillOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
+					- (Board.SREDNICA / 2), Board.SREDNICA,
+					Board.SREDNICA);
 			g.setColor(Color.pink);
 			g.drawLine(centerline[0], centerline[1], auxiliaryLine[0],
 					auxiliaryLine[1]);
@@ -162,13 +162,13 @@ public class Wyrzutnia {
 			if(!debugMode) g.fillArc(RIGHT_ARC_X, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
 					START_ANGLE, ARC_ANGLE);
 			g.setColor(Color.LIGHT_GRAY);
-			g.drawOval(centerline[0] - (Plansza.SREDNICA / 2), centerline[1]
-					- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-					Plansza.SREDNICA);
+			g.drawOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
+					- (Board.SREDNICA / 2), Board.SREDNICA,
+					Board.SREDNICA);
 			g.setColor(Color.DARK_GRAY);
-			if(!debugMode) g.fillOval(centerline[0] - (Plansza.SREDNICA / 2), centerline[1]
-					- (Plansza.SREDNICA / 2), Plansza.SREDNICA,
-					Plansza.SREDNICA);
+			if(!debugMode) g.fillOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
+					- (Board.SREDNICA / 2), Board.SREDNICA,
+					Board.SREDNICA);
 			g.setColor(Color.pink);
 			g.drawLine(centerline[0], centerline[1], auxiliaryLine[0],
 					auxiliaryLine[1]);

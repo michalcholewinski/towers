@@ -1,14 +1,14 @@
-package obiekty;
+package pl.towers.objects;
 
 import java.awt.*;
 
 /**
- * Klasa opisuj¹ca pasek zycia dla wiezy
+ * Klasa opisujï¿½ca pasek zycia dla wiezy
  * 
- * @author Micha³
+ * @author Michaï¿½
  * 
  */
-public class PasekZycia {
+public class LifeBar {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
 	private final int LIFE_INDICATOR_LENGTH = 100;
@@ -26,14 +26,14 @@ public class PasekZycia {
 	private boolean night;
 	private boolean debugMode=false;
 
-	public PasekZycia(int playerNumber,String playerName) {
+	public LifeBar(int playerNumber, String playerName) {
 		this.playerNumber = playerNumber;
 		this.playerName=playerName;
 		night=false;
 	}
 
 	/**
-	 * Rysowanie paska zycia, tu bêdzie wywolana jakas metoda odpowiedzialna za
+	 * Rysowanie paska zycia, tu bï¿½dzie wywolana jakas metoda odpowiedzialna za
 	 * rysowanie 2 prostokatow jeden na drugim z czego jeden bedzie sie
 	 * zmniejszal w zaleznosci od ilosci zycia
 	 */
@@ -76,21 +76,21 @@ public class PasekZycia {
 				g.setColor(Color.red);
 			
 			if(!debugMode){ 
-				g.fillRect(Plansza.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
+				g.fillRect(Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
 				g.setColor(Color.red);
 			}
 			else{
 				g.setColor(Color.black);
-				g.drawRect(Plansza.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
+				g.drawRect(Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
 			}
-			g.drawRect(Plansza.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, LIFE_INDICATOR_LENGTH, LIFE_INDICATOR_WIDTH);
+			g.drawRect(Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, LIFE_INDICATOR_LENGTH, LIFE_INDICATOR_WIDTH);
 			
 			g.setColor(Color.black);
 			if(night){
 				if(!debugMode) g.setColor(Color.white);
 			}
-			g.drawString(playerName, Plansza.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), PLAYER_NAME_Y);	
-			g.drawString(Integer.toString(life),Plansza.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH+25),LIFE_INDICATOR_Y);
+			g.drawString(playerName, Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), PLAYER_NAME_Y);
+			g.drawString(Integer.toString(life), Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH+25),LIFE_INDICATOR_Y);
 		}
 	}
 	/**

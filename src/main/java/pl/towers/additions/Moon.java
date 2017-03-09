@@ -1,11 +1,12 @@
-package dodatki;
+package pl.towers.additions;
 
 import java.awt.*;
 
-import obiekty.Plansza;
+import pl.towers.objects.Board;
+
 /**
- * Klasa odpowiedzalna za rysowanie i zmiane po³o¿enia ksiê¿yca
- * @author Micha³
+ * Klasa odpowiedzalna za rysowanie i zmiane poï¿½oï¿½enia ksiï¿½yca
+ * @author Michaï¿½
  *
  */
 public class Moon {
@@ -29,13 +30,13 @@ public class Moon {
 	
 	
 	/**
-	 * Metoda odpowiedzialna za aktualizacje po³o¿enia ksiê¿yca
+	 * Metoda odpowiedzialna za aktualizacje poï¿½oï¿½enia ksiï¿½yca
 	 */
 	public void update(){
 		delay++;
 		if (delay % DELAY == 0) {
 			coordinateX++;
-			if(coordinateX>Plansza.SZEROKOSC){
+			if(coordinateX> Board.SZEROKOSC){
 				coordinateX=START_POSITION;
 			}
 		}
