@@ -1,5 +1,7 @@
 package pl.towers.objects;
 
+import pl.towers.player.PlayerEnum;
+
 import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -22,18 +24,18 @@ public class Player extends Tower {
 	private boolean decreaseLife=false;
 	private boolean keyReleased = true;
 
-	public Player(int playerNumber, String playerName) {
-		super(playerNumber);
+	public Player(PlayerEnum player, String playerName) {
+		super(player);
 		this.playerName = playerName;
 	}
 
 	public void paint(Graphics2D g) {
 		super.paint(g);
-		if (playerNumber == GRACZ1) {
+		if (player == PlayerEnum.LEFT) {
 
 			if (shot == true)
 				if(debugMode) g.drawString("Wystrzelono przez " + playerName, 150, 150);
-		} else if (playerNumber == GRACZ2) {
+		} else {
 
 			if (shot== true)
 				if(debugMode) g.drawString("Wystrzelono przez " + playerName, 550, 150);
@@ -43,11 +45,11 @@ public class Player extends Tower {
 	 * Obni�anie celownika
 	 * @param player
 	 */
-	public void celownikDown(int player){
-		if(player==GRACZ2){
-			celownik--;
-			if (celownik < 0) {
-				celownik = 0;
+	public void viewfinderDown(final PlayerEnum player){
+		if(player==PlayerEnum.RIGHT){
+			viewfinder--;
+			if (viewfinder < 0) {
+				viewfinder = 0;
 			}
 			else{
 				polX[0]--;
@@ -56,10 +58,10 @@ public class Player extends Tower {
 				polY[2]++;
 			}
 		}
-		else if(player==GRACZ1){
-			celownik--;
-			if (celownik < 0) {
-				celownik = 0;
+		else {
+			viewfinder--;
+			if (viewfinder < 0) {
+				viewfinder = 0;
 				
 			}
 			else{
@@ -74,7 +76,7 @@ public class Player extends Tower {
 	/**
 	 * Pozostawienie celownika w tym samym miejscu
 	 */
-	private void doNothingWithCelownik(){
+	private void doNothingWithViewFinder(){
 		polX[0] = polX[0];
 		polX[2] = polX[2];
 		polY[0] = polY[0];
@@ -85,11 +87,11 @@ public class Player extends Tower {
 	 * Podnoszenie celownika
 	 * @param player
 	 */
-	public void celownikUp(int player){
-		if(player==GRACZ2){
-			celownik++;
-			if (celownik > 29) {
-				celownik = 29;
+	public void viewfinderUp(final PlayerEnum player){
+		if(player==PlayerEnum.RIGHT){
+			viewfinder++;
+			if (viewfinder > 29) {
+				viewfinder = 29;
 			}
 			else{
 				polX[0]++;
@@ -98,10 +100,10 @@ public class Player extends Tower {
 				polY[2]--;
 			}
 		}
-		else if(player==GRACZ1){
-			celownik++;
-			if (celownik > 29) {
-				celownik = 29;
+		else {
+			viewfinder++;
+			if (viewfinder > 29) {
+				viewfinder = 29;
 			}
 			else{
 				polX[0] -= 2;
@@ -114,14 +116,14 @@ public class Player extends Tower {
 	
 	public void keyReleased(KeyEvent e) {
 		keyReleased=true;
-		if (player == GRACZ2) {
+		if (player == PlayerEnum.RIGHT) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-				doNothingWithCelownik();
+				doNothingWithViewFinder();
 				break;
 
 			case KeyEvent.VK_UP:
-				doNothingWithCelownik();
+				doNothingWithViewFinder();
 				break;
 			case KeyEvent.VK_CONTROL:
 				shot = false;
@@ -130,11 +132,11 @@ public class Player extends Tower {
 		} else {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_S:
-				doNothingWithCelownik();
+				doNothingWithViewFinder();
 				break;
 
 			case KeyEvent.VK_W:
-				doNothingWithCelownik();
+				doNothingWithViewFinder();
 				break;
 			case KeyEvent.VK_F:
 				shot = false;
@@ -146,25 +148,25 @@ public class Player extends Tower {
 
 	public void keyPressed(KeyEvent e) {
 		keyReleased=false;
-		if (player == GRACZ2) {
+		if (player == PlayerEnum.RIGHT) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-				celownikDown(GRACZ2);
+				viewfinderDown(player);
 				break;
 			case KeyEvent.VK_UP:
-				celownikUp(GRACZ2);
+				viewfinderUp(player);
 				break;
 			case KeyEvent.VK_CONTROL:
 				shot = true;
 				break;
 			}
-		} else if(player==GRACZ1){
+		} else {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_S:
-				celownikDown(GRACZ1);
+				viewfinderDown(player);
 				break;
 			case KeyEvent.VK_W:
-				celownikUp(GRACZ1);
+				viewfinderUp(player);
 				break;
 			case KeyEvent.VK_F:
 				shot = true;
@@ -211,13 +213,13 @@ public class Player extends Tower {
 	 */
 	public Rectangle getBounds(){
 		int whichTower=0;
-		if(playerNumber==GRACZ1){
+		if(player == PlayerEnum.LEFT){
 			whichTower=LEFT_TOWER_X;
 		}
-		else if(playerNumber==GRACZ2){
+		else{
 			whichTower=RIGHT_TOWER_X;
 		}	
-		return new Rectangle(whichTower, POINT_Y1,TOWER_WIDTH, Board.WYSOKOSC-POINT_Y1);
+		return new Rectangle(whichTower, POINT_Y1,TOWER_WIDTH, Board.HEIGHT -POINT_Y1);
 
 	}
 	

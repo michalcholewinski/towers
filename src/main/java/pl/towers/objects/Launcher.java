@@ -1,6 +1,10 @@
 package pl.towers.objects;
 
+import pl.towers.player.PlayerEnum;
+
 import java.awt.*;
+
+import static pl.towers.objects.Board.DIAMETER;
 
 /**
  * Klasa Launcher (Armatka) opisuje mozliwe zachowanie armatki z kt�rej pocisk
@@ -15,23 +19,23 @@ public class Launcher {
 	private final int LEFT_POINT_X1 = 43;
 	private final int LEFT_POINT_X2 = 50;
 	private final int LEFT_POINT_X3 = 59;
-	private final int RIGHT_POINT_X1 = Board.SZEROKOSC - 82;
-	private final int RIGHT_POINT_X2 = Board.SZEROKOSC - 75;
-	private final int RIGHT_POINT_X3 = Board.SZEROKOSC - 66;
-	protected final int POINT_Y1 = Board.WYSOKOSC - 150;
-	private final int POINT_Y2 = Board.WYSOKOSC - 90;
+	private final int RIGHT_POINT_X1 = Board.WIDTH - 82;
+	private final int RIGHT_POINT_X2 = Board.WIDTH - 75;
+	private final int RIGHT_POINT_X3 = Board.WIDTH - 66;
+	protected final int POINT_Y1 = Board.HEIGHT - 150;
+	private final int POINT_Y2 = Board.HEIGHT - 90;
 	private final int START_ANGLE = 0;
 	private final int ARC_ANGLE = 180;
 	private final int ARC_DIMENSION = 50;
 	private final int LEFT_ARC_X = 25;
-	private final int RIGHT_ARC_X = Board.SZEROKOSC - 100;
-	private final int ARC_Y = Board.WYSOKOSC - 115;
+	private final int RIGHT_ARC_X = Board.WIDTH - 100;
+	private final int ARC_Y = Board.HEIGHT - 115;
 	private final int GUN_NUMBER_OF_POINTS = 3;
 	private final int AUXILIARY_LINE_LENGTH = 1;
 
-	protected int celownik; // 30-sto stopniowa skala, 0 -poziomo, 30-pionowo
+	protected int viewfinder; // 30-sto stopniowa skala, 0 -poziomo, 30-pionowo
 	// wyjasniaj�c inaczej 0-strzal w lewo, 30- w g�r�
-	public int player; // 0 ten po lewej, 1 po prawej
+	protected PlayerEnum player;
 	protected boolean debugMode=false;
 	protected int polX[] = new int[3];
 	protected int polY[] = new int[3];
@@ -52,26 +56,32 @@ public class Launcher {
 												 * 1 wsp�rzedna Y
 												 */
 
-	public Launcher(int playerNumber) {
-		this.player = playerNumber;
-		celownik = 29;
-		if (playerNumber == GRACZ1) {
-
-			polX[0] = LEFT_POINT_X1;
-			polX[1] = LEFT_POINT_X2;
-			polX[2] = LEFT_POINT_X3;
-			polY[0] = POINT_Y1;
-			polY[1] = POINT_Y2;
-			polY[2] = POINT_Y1;
-		} else if (playerNumber == GRACZ2) {
-
-			polX[0] = RIGHT_POINT_X1;
-			polX[1] = RIGHT_POINT_X2;
-			polX[2] = RIGHT_POINT_X3;
-			polY[0] = POINT_Y1;
-			polY[1] = POINT_Y2;
-			polY[2] = POINT_Y1;
+	public Launcher(PlayerEnum player) {
+		this.player = player;
+		viewfinder = 29;
+		if (player == PlayerEnum.LEFT) {
+			setFirstPlayersLauncherCoordinates();
+		}else {
+			setSecondPlayerLauncherCoordinates();
 		}
+	}
+
+	private void setFirstPlayersLauncherCoordinates() {
+		polX[0] = LEFT_POINT_X1;
+		polX[1] = LEFT_POINT_X2;
+		polX[2] = LEFT_POINT_X3;
+		polY[0] = POINT_Y1;
+		polY[1] = POINT_Y2;
+		polY[2] = POINT_Y1;
+	}
+
+	private void setSecondPlayerLauncherCoordinates() {
+		polX[0] = RIGHT_POINT_X1;
+		polX[1] = RIGHT_POINT_X2;
+		polX[2] = RIGHT_POINT_X3;
+		polY[0] = POINT_Y1;
+		polY[1] = POINT_Y2;
+		polY[2] = POINT_Y1;
 	}
 
 	/**
@@ -134,56 +144,43 @@ public class Launcher {
 		designationCenterline(polX[0], polY[0], polX[2], polY[2]);
 		getAuxiliaryLine(centerline[0], centerline[1], polX[1], polY[1],
 				0);
-		if (player == GRACZ1) {
-			g.setColor(Color.gray);
-			g.drawPolygon(polX, polY, GUN_NUMBER_OF_POINTS);
-			if(!debugMode) g.fillPolygon(polX, polY, GUN_NUMBER_OF_POINTS);
-			g.drawArc(LEFT_ARC_X, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
-					START_ANGLE, ARC_ANGLE);
-			if(!debugMode) g.fillArc(LEFT_ARC_X, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
-					START_ANGLE, ARC_ANGLE);
-			g.setColor(Color.LIGHT_GRAY);
-			g.drawOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
-					- (Board.SREDNICA / 2), Board.SREDNICA,
-					Board.SREDNICA);
-			g.setColor(Color.DARK_GRAY);
-			if(!debugMode) g.fillOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
-					- (Board.SREDNICA / 2), Board.SREDNICA,
-					Board.SREDNICA);
-			g.setColor(Color.pink);
-			g.drawLine(centerline[0], centerline[1], auxiliaryLine[0],
-					auxiliaryLine[1]);
-		} else if (player == GRACZ2) {
-			g.setColor(Color.gray);
-			g.drawPolygon(polX, polY, GUN_NUMBER_OF_POINTS);
-			if(!debugMode) g.fillPolygon(polX, polY, GUN_NUMBER_OF_POINTS);
-			g.drawArc(RIGHT_ARC_X, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
-					START_ANGLE, ARC_ANGLE);
-			if(!debugMode) g.fillArc(RIGHT_ARC_X, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
-					START_ANGLE, ARC_ANGLE);
-			g.setColor(Color.LIGHT_GRAY);
-			g.drawOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
-					- (Board.SREDNICA / 2), Board.SREDNICA,
-					Board.SREDNICA);
-			g.setColor(Color.DARK_GRAY);
-			if(!debugMode) g.fillOval(centerline[0] - (Board.SREDNICA / 2), centerline[1]
-					- (Board.SREDNICA / 2), Board.SREDNICA,
-					Board.SREDNICA);
-			g.setColor(Color.pink);
-			g.drawLine(centerline[0], centerline[1], auxiliaryLine[0],
-					auxiliaryLine[1]);
+		if (player==PlayerEnum.LEFT) {
+			paintLauncher(g, LEFT_ARC_X);
+		} else {
+			paintLauncher(g, RIGHT_ARC_X);
 
 		}
 
 	}
 
+	private void paintLauncher(Graphics2D g, int arc_x) {
+		g.setColor(Color.gray);
+		g.drawPolygon(polX, polY, GUN_NUMBER_OF_POINTS);
+		if(!debugMode) g.fillPolygon(polX, polY, GUN_NUMBER_OF_POINTS);
+		g.drawArc(arc_x, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
+                START_ANGLE, ARC_ANGLE);
+		if(!debugMode) g.fillArc(arc_x, ARC_Y, ARC_DIMENSION, ARC_DIMENSION,
+                START_ANGLE, ARC_ANGLE);
+		g.setColor(Color.LIGHT_GRAY);
+		g.drawOval(centerline[0] - (DIAMETER / 2), centerline[1]
+                - (DIAMETER / 2), DIAMETER,
+                DIAMETER);
+		g.setColor(Color.DARK_GRAY);
+		if(!debugMode) g.fillOval(centerline[0] - (DIAMETER / 2), centerline[1]
+                - (DIAMETER / 2), DIAMETER,
+                DIAMETER);
+		g.setColor(Color.pink);
+		g.drawLine(centerline[0], centerline[1], auxiliaryLine[0],
+                auxiliaryLine[1]);
+	}
+
 	/**
 	 * Metoda zwraca polozenie celownika w stopniach
 	 * 
-	 * @return celownik
+	 * @return viewfinder
 	 */
-	public double getCelownik() {
-		return (celownik * 2.4) + 18;
+	public double getViewfinder() {
+		return (viewfinder * 2.4) + 18;
 	}
 	
 	/**

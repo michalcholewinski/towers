@@ -1,6 +1,7 @@
 package pl.towers;
 
 import pl.towers.additions.Pause;
+import pl.towers.player.PlayerEnum;
 import pl.towers.sound.ShotSound;
 import pl.towers.sound.SimpleAudioPlayer;
 import pl.towers.objects.*;
@@ -15,9 +16,12 @@ import java.awt.image.BufferStrategy;
 
 public class Towers extends Canvas implements Board, KeyListener, Runnable {
 
-	private static final long serialVersionUID = 1L;
-	private final int GRACZ1 = 0;
-	private final int GRACZ2 = 1;
+    private static final long serialVersionUID = 1L;
+    public static final String TITLE = ">>>TOWERS<<<";
+    public static final int DOUBLE_BUFFERING = 2;
+    public static final int LOW_PRIO = 1;
+    private final int FIRST_PLAYER = 0;
+	private final int SECOND_PLAYER = 1;
 	private final int END = 1000;
 	private final int HILL = 0; // s�u�y do sprawdzania czy by�a kolizja ze
 								// wzg�rzem,
@@ -28,135 +32,155 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 	private int endGame = 0;
 	private boolean debugMode = false;
 
-	public BufferStrategy strategia; // zmienna u�ywana przy buforowaniu
+	public final BufferStrategy strategy;
 	private Hill hill;
-	private WindArrow wiatr;
-	private Player gracz, gracz1;
-	private Bullet bullet, bullet1;
+	private WindArrow windArrow;
+	private Player firstPlayer, secondPlayer;
+	private Bullet firstPlayersBullet, secondPlayersBullet;
 	private Background background;
-	private LifeBar pasek1, pasek2;
-	private ShootPowerBar pasekMocy, pasekMocy1;
+	private LifeBar firstPlayersLifeBar, secondPlayersLifeBar;
+	private ShootPowerBar firstPlayersShootPowerBar, secondPlayersShootPowerBar;
 	private EndScreen end;
-	private SimpleAudioPlayer nuta;
-	private ShotSound uderzenie;
-	private Pause ekranPauza;
-	JFrame okno;
-	private boolean pauza;
+	private SimpleAudioPlayer sound;
+	private ShotSound hitSound;
+	private Pause pauseScreen;
+	private final JFrame window;
+	private boolean pause;
 
 	public Towers() {
-		okno = new JFrame(">>>TOWERS<<<");
-		JPanel panel = (JPanel) okno.getContentPane();
-		setBounds(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
-		panel.setPreferredSize(new Dimension(Board.SZEROKOSC,
-				Board.WYSOKOSC));
-		panel.setLayout(null);
-		panel.add(this);
-		okno.setBounds(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
-		okno.setVisible(true);
-		okno.addWindowListener(new WindowAdapter() {
-			@SuppressWarnings("deprecation")
-			public void windowClosing(WindowEvent e) {
-				nuta.stop();
-				endGame=1001;
-
-			}
-		});
-		okno.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		okno.setResizable(false);
-		createBufferStrategy(2);// buforowanie
-		strategia = getBufferStrategy();// buforowanie
+        window = buildWindow();
+		createBufferStrategy(DOUBLE_BUFFERING);
+		strategy = getBufferStrategy();
 		requestFocus();
 		addKeyListener(this);
 
 		
 	}
-	
-	
-	public void init(String gracz1imie, String gracz2imie){
+
+    private JFrame buildWindow() {
+        JFrame window = new JFrame(TITLE);
+        JPanel panel = (JPanel) window.getContentPane();
+        setBounds(0, 0, Board.WIDTH, Board.HEIGHT);
+        panel.setPreferredSize(new Dimension(Board.WIDTH,
+                Board.HEIGHT));
+        panel.setLayout(null);
+        panel.add(this);
+        window.setBounds(0, 0, Board.WIDTH, Board.HEIGHT);
+        window.setVisible(true);
+        window.addWindowListener(new WindowAdapter() {
+            @SuppressWarnings("deprecation")
+            public void windowClosing(WindowEvent e) {
+                sound.stop();
+                endGame=1001;
+
+            }
+        });
+        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        window.setResizable(false);
+        return window;
+    }
+
+
+    public void init(String gracz1imie, String gracz2imie){
 		hill = new Hill();
-		wiatr = new WindArrow();
-		wiatr.start();
-		gracz = new Player(GRACZ1, gracz1imie);
-		gracz1 = new Player(GRACZ2, gracz2imie);
-		bullet = new Bullet(GRACZ1);
-		bullet1 = new Bullet(GRACZ2);
+		windArrow = new WindArrow();
+		windArrow.start();
+		firstPlayer = new Player(PlayerEnum.LEFT, gracz1imie);
+		secondPlayer = new Player(PlayerEnum.RIGHT, gracz2imie);
+		firstPlayersBullet = new Bullet(FIRST_PLAYER);
+		secondPlayersBullet = new Bullet(SECOND_PLAYER);
 		background = new Background();
-		pasek1 = new LifeBar(GRACZ1, gracz.getPlayerName());
-		pasek2 = new LifeBar(GRACZ2, gracz1.getPlayerName());
-		pasekMocy = new ShootPowerBar(GRACZ1);
-		pasekMocy1 = new ShootPowerBar(GRACZ2);
+		firstPlayersLifeBar = new LifeBar(FIRST_PLAYER, firstPlayer.getPlayerName());
+		secondPlayersLifeBar = new LifeBar(SECOND_PLAYER, secondPlayer.getPlayerName());
+		firstPlayersShootPowerBar = new ShootPowerBar(FIRST_PLAYER);
+		secondPlayersShootPowerBar = new ShootPowerBar(SECOND_PLAYER);
 		end = new EndScreen();
-		nuta = new SimpleAudioPlayer(SOUND_NAME);
-		uderzenie = new ShotSound();
-		wiatr.setPriority(1);
-		nuta.setPriority(1);
-		uderzenie.setPriority(1);
-		ekranPauza = new Pause();
-		pauza = false;
+		sound = new SimpleAudioPlayer(SOUND_NAME);
+		hitSound = new ShotSound();
+		windArrow.setPriority(LOW_PRIO);
+		sound.setPriority(LOW_PRIO);
+		hitSound.setPriority(LOW_PRIO);
+		pauseScreen = new Pause();
+		pause = false;
 		
 		
 	}
 
 	public void checkColission() {
-		Rectangle playerBound = gracz.getBounds();
-		Rectangle bullet = bullet1.getBounds();
-		Rectangle playerBound1 = gracz1.getBounds();
-		Rectangle bullet1 = this.bullet.getBounds();
-		Polygon hill = this.hill.getBounds();
-		if (bullet.intersects(playerBound)) {
-			if (this.bullet1.isFired()) {
-				gracz.setDecreaseLife(true);
-			}
+		Rectangle firstPlayerBounds = firstPlayer.getBounds();
+        Rectangle secondPlayerBounds = secondPlayer.getBounds();
+        Rectangle secondPlayersBulletBounds = secondPlayersBullet.getBounds();
+		Rectangle firstPlayersBulletBounds = firstPlayersBullet.getBounds();
 
-		}
-		if (bullet1.intersects(playerBound1)) {
-			if (this.bullet.isFired()) {
-				gracz1.setDecreaseLife(true);
-			}
-
-		}
-		if (bullet1.intersects(bullet)) {
-			this.bullet.collision(BULLET);
-			this.bullet1.collision(BULLET);
-		}
-
-		if (hill.intersects(bullet)) {
-			this.hill.collision(this.bullet1.getPolozenieX(), this.bullet1.getPolozenieY());
-			this.bullet1.collision(HILL);
-			uderzenie.setFilename(HILL);
-			uderzenie.setShot(true);
-		}
-		if (hill.intersects(bullet1)) {
-			this.hill.collision(this.bullet.getPolozenieX(), this.bullet.getPolozenieY());
-			this.bullet.collision(HILL);
-			uderzenie.setFilename(HILL);
-			uderzenie.setShot(true);
-		}
+        checkIfFirstPlayerHasBeenHitted(firstPlayerBounds, secondPlayersBulletBounds);
+        checkIfSecondPlayerHasBeenHitted(secondPlayerBounds, firstPlayersBulletBounds);
+        checkIfBulletsHitsEachOther(secondPlayersBulletBounds, firstPlayersBulletBounds);
+        checkIfThereIsColissionWithHill(secondPlayersBulletBounds, firstPlayersBulletBounds);
 	}
 
-	public void setDebugMode() {
+    private void checkIfFirstPlayerHasBeenHitted(Rectangle playerBound, Rectangle bullet) {
+        if (bullet.intersects(playerBound)) {
+            if (this.secondPlayersBullet.isFired()) {
+                firstPlayer.setDecreaseLife(true);
+            }
+
+        }
+    }
+
+    private void checkIfSecondPlayerHasBeenHitted(Rectangle playerBound1, Rectangle bullet1) {
+        if (bullet1.intersects(playerBound1)) {
+            if (this.firstPlayersBullet.isFired()) {
+                secondPlayer.setDecreaseLife(true);
+            }
+
+        }
+    }
+
+    private void checkIfBulletsHitsEachOther(Rectangle bullet, Rectangle bullet1) {
+        if (bullet1.intersects(bullet)) {
+			this.firstPlayersBullet.collision(BULLET);
+			this.secondPlayersBullet.collision(BULLET);
+		}
+    }
+
+    private void checkIfThereIsColissionWithHill(Rectangle secondPlayersBullet, Rectangle firstPlayersBullet) {
+        Polygon hillBounds = hill.getBounds();
+        if (hillBounds.intersects(secondPlayersBullet)) {
+            this.hill.collision(this.secondPlayersBullet.getPolozenieX(), this.secondPlayersBullet.getPolozenieY());
+            this.secondPlayersBullet.collision(HILL);
+            hitSound.setFilename(HILL);
+            hitSound.setShot(true);
+        }
+        if (hillBounds.intersects(firstPlayersBullet)) {
+            this.hill.collision(this.firstPlayersBullet.getPolozenieX(), this.firstPlayersBullet.getPolozenieY());
+            this.firstPlayersBullet.collision(HILL);
+            hitSound.setFilename(HILL);
+            hitSound.setShot(true);
+        }
+    }
+
+    public void setDebugMode() {
 		hill.setDebugMode(debugMode);
-		gracz.setDebugMode(debugMode);
-		gracz1.setDebugMode(debugMode);
-		wiatr.setDebugMode(debugMode);
-		pasek1.setDebugMode(debugMode);
-		pasek2.setDebugMode(debugMode);
+		firstPlayer.setDebugMode(debugMode);
+		secondPlayer.setDebugMode(debugMode);
+		windArrow.setDebugMode(debugMode);
+		firstPlayersLifeBar.setDebugMode(debugMode);
+		secondPlayersLifeBar.setDebugMode(debugMode);
 		background.setDebugMode(debugMode);
-		pasekMocy.setDebugMode(debugMode);
-		pasekMocy1.setDebugMode(debugMode);
-		bullet.setDebugMode(debugMode);
-		bullet1.setDebugMode(debugMode);
+		firstPlayersShootPowerBar.setDebugMode(debugMode);
+		secondPlayersShootPowerBar.setDebugMode(debugMode);
+		firstPlayersBullet.setDebugMode(debugMode);
+		secondPlayersBullet.setDebugMode(debugMode);
 	}
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE){
-			if(pauza){
-				pauza=false;
+			if(pause){
+				pause =false;
 			}
-			else pauza=true;
+			else pause =true;
 		}
-		if (!end.isShow() || !pauza) {
+		if (!end.isShow() || !pause) {
 			
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				System.exit(0);
@@ -167,15 +191,15 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 				} else
 					debugMode = true;
 			}
-			gracz.keyPressed(e);
-			gracz1.keyPressed(e);
+			firstPlayer.keyPressed(e);
+			secondPlayer.keyPressed(e);
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if (!end.isShow() || !pauza) {
-			gracz.keyReleased(e);
-			gracz1.keyReleased(e);
+		if (!end.isShow() || !pause) {
+			firstPlayer.keyReleased(e);
+			secondPlayer.keyReleased(e);
 		}
 	}
 
@@ -183,121 +207,121 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 	}
 
 	public void paintWorld() {
-		Graphics2D g = (Graphics2D) strategia.getDrawGraphics();
+		Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
 		background.paint(g);
 
 		if (debugMode) {
 			g.setColor(Color.black);
 			g.drawString(
-					"K�t nachylenia: " + Integer.toString((int) bullet.angle),
+					"K�t nachylenia: " + Integer.toString((int) firstPlayersBullet.angle),
 					60, 250);
 			g.drawString(
-					"K�t nachylenia: " + Integer.toString((int) bullet1.angle),
+					"K�t nachylenia: " + Integer.toString((int) secondPlayersBullet.angle),
 					640, 250);
 		}
 		hill.paint(g);
-		wiatr.paint(g);
-		gracz.paint(g);
-		gracz1.paint(g);
-		bullet.paint(g);
-		bullet1.paint(g);
-		pasek1.paint(g);
-		pasek2.paint(g);
-		pasekMocy.paint(g);
-		pasekMocy1.paint(g);
+		windArrow.paint(g);
+		firstPlayer.paint(g);
+		secondPlayer.paint(g);
+		firstPlayersBullet.paint(g);
+		secondPlayersBullet.paint(g);
+		firstPlayersLifeBar.paint(g);
+		secondPlayersLifeBar.paint(g);
+		firstPlayersShootPowerBar.paint(g);
+		secondPlayersShootPowerBar.paint(g);
 		if (end.isShow()) {
 			end.paint(g);
 		}
-		if(pauza)
-			ekranPauza.paint(g);
-		strategia.show();
+		if(pause)
+			pauseScreen.paint(g);
+		strategy.show();
 		
 		
 	}
 
 	public void updateWorld() {
-		nuta.setPause(pauza);
-		if (!pauza) {
+		sound.setPause(pause);
+		if (!pause) {
 			setDebugMode();
 			background.update();
 			hill.update();
-			wiatr.setNight(background.isNight());
-			if (gracz.isWystrzelono()) {
-				if (!bullet.isCollision()) {
-					bullet.setFired(true);
+			windArrow.setNight(background.isNight());
+			if (firstPlayer.isWystrzelono()) {
+				if (!firstPlayersBullet.isCollision()) {
+					firstPlayersBullet.setFired(true);
 				} else {
-					bullet.setCollision(gracz.isKeyReleased());
+					firstPlayersBullet.setCollision(firstPlayer.isKeyReleased());
 				}
 			}
-			if (gracz1.isWystrzelono()) {
-				if (!bullet1.isCollision()) {
-					bullet1.setFired(true);
+			if (secondPlayer.isWystrzelono()) {
+				if (!secondPlayersBullet.isCollision()) {
+					secondPlayersBullet.setFired(true);
 				} else {
-					bullet1.setCollision(gracz1.isKeyReleased());
+					secondPlayersBullet.setCollision(secondPlayer.isKeyReleased());
 				}
 			}
-			if (gracz.isDecreaseLife()) {
-				gracz.collision();
-				bullet1.collision(PLAYER);
-				uderzenie.setFilename(PLAYER);
-				uderzenie.setShot(true);
+			if (firstPlayer.isDecreaseLife()) {
+				firstPlayer.collision();
+				secondPlayersBullet.collision(PLAYER);
+				hitSound.setFilename(PLAYER);
+				hitSound.setShot(true);
 			}
-			if (gracz1.isDecreaseLife()) {
-				gracz1.collision();
-				bullet.collision(PLAYER);
-				uderzenie.setFilename(PLAYER);
-				uderzenie.setShot(true);
+			if (secondPlayer.isDecreaseLife()) {
+				secondPlayer.collision();
+				firstPlayersBullet.collision(PLAYER);
+				hitSound.setFilename(PLAYER);
+				hitSound.setShot(true);
 			}
-			bullet.ustawPolozeniePoczatkowe(gracz.getCenterline());
-			bullet.setSpeed(pasekMocy.getPower());
-			bullet.update();
-			bullet.calculateBulletSpeed(wiatr.getPower(), wiatr.getDirection());
-			bullet.angle = gracz.getCelownik();
-			bullet.setNight(background.isNight());
+			firstPlayersBullet.ustawPolozeniePoczatkowe(firstPlayer.getCenterline());
+			firstPlayersBullet.setSpeed(firstPlayersShootPowerBar.getPower());
+			firstPlayersBullet.update();
+			firstPlayersBullet.calculateBulletSpeed(windArrow.getPower(), windArrow.getDirection());
+			firstPlayersBullet.angle = firstPlayer.getViewfinder();
+			firstPlayersBullet.setNight(background.isNight());
 
-			bullet1.ustawPolozeniePoczatkowe(gracz1.getCenterline());
-			bullet1.setSpeed(pasekMocy1.getPower());
-			bullet1.update();
-			bullet1.calculateBulletSpeed(wiatr.getPower(), wiatr.getDirection());
-			bullet1.angle = gracz1.getCelownik();
-			bullet1.setNight(background.isNight());
+			secondPlayersBullet.ustawPolozeniePoczatkowe(secondPlayer.getCenterline());
+			secondPlayersBullet.setSpeed(secondPlayersShootPowerBar.getPower());
+			secondPlayersBullet.update();
+			secondPlayersBullet.calculateBulletSpeed(windArrow.getPower(), windArrow.getDirection());
+			secondPlayersBullet.angle = secondPlayer.getViewfinder();
+			secondPlayersBullet.setNight(background.isNight());
 
-			pasek1.setLife(gracz.getLife());
+			firstPlayersLifeBar.setLife(firstPlayer.getLife());
 
-			pasek2.setLife(gracz1.getLife());
-			pasek1.setNight(background.isNight());
-			pasek2.setNight(background.isNight());
+			secondPlayersLifeBar.setLife(secondPlayer.getLife());
+			firstPlayersLifeBar.setNight(background.isNight());
+			secondPlayersLifeBar.setNight(background.isNight());
 
 			if (!end.isShow()) {
-				pasekMocy.update();
-				pasekMocy1.update();
-				pasekMocy.setNight(background.isNight());
-				pasekMocy1.setNight(background.isNight());
+				firstPlayersShootPowerBar.update();
+				secondPlayersShootPowerBar.update();
+				firstPlayersShootPowerBar.setNight(background.isNight());
+				secondPlayersShootPowerBar.setNight(background.isNight());
 			} else {
 				endGame++;
 			}
-			if (gracz.isEndOfLife()) {
+			if (firstPlayer.isEndOfLife()) {
 
 				end.setShow(true);
-				end.setPlayerName(gracz1.getPlayerName());
-				end.setPlayerNumber(GRACZ2);
+				end.setPlayerName(secondPlayer.getPlayerName());
+				end.setPlayerNumber(SECOND_PLAYER);
 				end.update();
 			}
-			if (gracz1.isEndOfLife()) {
+			if (secondPlayer.isEndOfLife()) {
 
 				end.setShow(true);
-				end.setPlayerName(gracz.getPlayerName());
-				end.setPlayerNumber(GRACZ1);
+				end.setPlayerName(firstPlayer.getPlayerName());
+				end.setPlayerNumber(FIRST_PLAYER);
 				end.update();
 			}
 		}
-		else ekranPauza.update();
+		else pauseScreen.update();
 	}
 
 	@SuppressWarnings("deprecation")
 	public void run() {
-		nuta.start();
-		uderzenie.start();
+		sound.start();
+		hitSound.start();
 		while (endGame <= END/* isVisible() */) {
 			updateWorld();
 			checkColission();
@@ -307,8 +331,8 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 			} catch (InterruptedException e) {
 			}
 		}
-		okno.setVisible(false);
-		nuta.stop();
+		window.setVisible(false);
+		sound.stop();
 		//System.exit(0);
 	}
 

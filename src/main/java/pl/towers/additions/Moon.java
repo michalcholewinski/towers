@@ -1,8 +1,8 @@
 package pl.towers.additions;
 
-import java.awt.*;
-
 import pl.towers.objects.Board;
+
+import java.awt.*;
 
 /**
  * Klasa odpowiedzalna za rysowanie i zmiane po�o�enia ksi�yca
@@ -36,7 +36,7 @@ public class Moon {
 		delay++;
 		if (delay % DELAY == 0) {
 			coordinateX++;
-			if(coordinateX> Board.SZEROKOSC){
+			if(coordinateX> Board.WIDTH){
 				coordinateX=START_POSITION;
 			}
 		}

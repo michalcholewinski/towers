@@ -1,9 +1,9 @@
 package pl.towers.additions;
 
-import java.awt.*;
-import java.util.*;
-
 import pl.towers.objects.Board;
+
+import java.awt.*;
+import java.util.Random;
 
 /**
  * Klasa odpowiedzialna za rysowanie chmur
@@ -27,8 +27,8 @@ public class Clouds {
 	public Clouds() {
 		for (int i = 0; i < NUMBER_OF_CLOUDS; i++) {
 
-			tabX[i] = rand.nextInt(Board.SZEROKOSC);//(int)Math.random()*Board.SZEROKOSC;
-			tabY[i] = rand.nextInt(Board.WYSOKOSC - DISTANCE_FROM_GROUND);
+			tabX[i] = rand.nextInt(Board.WIDTH);//(int)Math.random()*Board.WIDTH;
+			tabY[i] = rand.nextInt(Board.HEIGHT - DISTANCE_FROM_GROUND);
 			width[i] = MIN_WIDTH + rand.nextInt(MAX_WIDTH);
 			height[i] = MIX_HEIGHT + rand.nextInt(MAX_HEIGHT);
 

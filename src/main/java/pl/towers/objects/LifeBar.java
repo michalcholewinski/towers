@@ -76,21 +76,21 @@ public class LifeBar {
 				g.setColor(Color.red);
 			
 			if(!debugMode){ 
-				g.fillRect(Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
+				g.fillRect(Board.WIDTH -(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
 				g.setColor(Color.red);
 			}
 			else{
 				g.setColor(Color.black);
-				g.drawRect(Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
+				g.drawRect(Board.WIDTH -(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, life, LIFE_INDICATOR_WIDTH);
 			}
-			g.drawRect(Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, LIFE_INDICATOR_LENGTH, LIFE_INDICATOR_WIDTH);
+			g.drawRect(Board.WIDTH -(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), LIFE_INDICATOR_Y, LIFE_INDICATOR_LENGTH, LIFE_INDICATOR_WIDTH);
 			
 			g.setColor(Color.black);
 			if(night){
 				if(!debugMode) g.setColor(Color.white);
 			}
-			g.drawString(playerName, Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), PLAYER_NAME_Y);
-			g.drawString(Integer.toString(life), Board.SZEROKOSC-(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH+25),LIFE_INDICATOR_Y);
+			g.drawString(playerName, Board.WIDTH -(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH), PLAYER_NAME_Y);
+			g.drawString(Integer.toString(life), Board.WIDTH -(LIFE_INDICATOR_X+LIFE_INDICATOR_LENGTH+25),LIFE_INDICATOR_Y);
 		}
 	}
 	/**

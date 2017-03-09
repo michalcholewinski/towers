@@ -46,7 +46,7 @@ public class ObliqueThrow {
 	 */
 
 	public double getYfor(double t) {
-		return Board.WYSOKOSC - (vy * t - G * t * t / 2.0);
+		return Board.HEIGHT - (vy * t - G * t * t / 2.0);
 	}
 
 	// Przycina kat do pierwszej cwiartki

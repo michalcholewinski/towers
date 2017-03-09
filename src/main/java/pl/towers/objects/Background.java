@@ -54,12 +54,12 @@ public class Background {
 		if (!debugMode) {
 			if (bgNumber == GOOD_WEATHER) {
 				g.setColor(Color.cyan);
-				g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
+				g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
 				sun.paint(g);
 				clouds.paint(g);
 			} else if (bgNumber == NIGHT) {
 				g.setColor(Color.blue);
-				g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
+				g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
 				moon.paint(g);
 				for (int i = 0; i < NUMBER_OF_STARS; i++) {
 					star[i].paint(g);
@@ -69,7 +69,7 @@ public class Background {
 		}
 		else{
 			g.setColor(Color.white);
-			g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
+			g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
 		}
 	}
 

@@ -10,7 +10,7 @@ public class Wind extends Thread{
 	protected final int MAX_POWER = 16;
 	
 	
-	protected int direction;//0-w lewo, 1- w prawo
+	protected int direction;//0-w lewo, 1- w prawo //TODO(mcholewi) add enum here (LEFT, RIGHT)
 	protected int power;//moc wiatru w skali 0-5, 0 oznacza ze nie wieje
 	
 	/**

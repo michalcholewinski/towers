@@ -11,7 +11,7 @@ public class WindArrow extends Wind {
 	private final int POINT_Y1R = 47, POINT_Y2R = 35, POINT_Y3R = 40,
 			POINT_Y4R = 40, POINT_Y5R = 55, POINT_Y6R = 55, POINT_Y7R = 60,
 			POINT_Y8R = 47;
-	private final int MIDDLE = Board.SZEROKOSC / 2;
+	private final int MIDDLE = Board.WIDTH / 2;
 	private final int POINT_X1L = MIDDLE - 20, POINT_X2L = MIDDLE + 10,
 			POINT_X3L = MIDDLE + 20;
 	private final int POINT_X1R = MIDDLE - 20, POINT_X2R = MIDDLE - 10,

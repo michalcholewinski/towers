@@ -7,11 +7,11 @@ import static java.lang.Math.*;
 public class Hill {
 	private final int START_PROCENT = 16;
 	private final int MAX_PROCENT = 100;
-	private final int NUMBER_OF_POINTS = (Board.SZEROKOSC * START_PROCENT)
+	private final int NUMBER_OF_POINTS = (Board.WIDTH * START_PROCENT)
 			/ MAX_PROCENT;
-	private final int START_Y = Board.WYSOKOSC - 30;
+	private final int START_Y = Board.HEIGHT - 30;
 	private final int MAX_NUMBER_OF_BALLS = 200;
-	private final int START_X = (Board.SZEROKOSC * START_PROCENT)
+	private final int START_X = (Board.WIDTH * START_PROCENT)
 			/ MAX_PROCENT;
 	private final int HILL_LENGTH = START_X + (4 * NUMBER_OF_POINTS);
 
@@ -65,9 +65,9 @@ public class Hill {
 				g.setColor(Color.black);
 				if(debugMode) g.drawString("LICZBA KULEK: " + numberOfBalls, 400, 220);
 				g.setColor(Color.DARK_GRAY);
-				g.fillOval(tableX[i] - (Board.SREDNICA / 2), tableY[i]
-						- (Board.SREDNICA / 2), Board.SREDNICA,
-						Board.SREDNICA);
+				g.fillOval(tableX[i] - (Board.DIAMETER / 2), tableY[i]
+						- (Board.DIAMETER / 2), Board.DIAMETER,
+						Board.DIAMETER);
 			}
 		}
 

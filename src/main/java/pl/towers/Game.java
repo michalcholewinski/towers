@@ -18,48 +18,59 @@ import java.io.IOException;
 public class Game extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-    private JButton nowaGra = new JButton("NOWA GRA");
-    private JButton pomoc = new JButton("POMOC");
-    private JButton autorzy = new JButton("AUTORZY");
-    private JButton koniec = new JButton("KONIEC");
-    private JButton powrot = new JButton("POWROT");
-    private JButton start = new JButton("START");
-    private JTextArea textArea = new JTextArea("POMOC", 4, 20);
-    private JTextArea textAreaAuthors = new JTextArea("AUTORZY", 4, 20);
+    public static final String NEW_GAME = "NOWA GRA";
+    public static final String HELP = "POMOC";
+    public static final String AUTHOR = "AUTORZY";
+    public static final String END = "KONIEC";
+    public static final String BACK = "POWROT";
+    public static final String START = "START";
+    public static final String FIRST_PLAYER_TEXT = " Player 1";
+    public static final String SECOND_PLAYER_TEXT = " Player 2";
+    public static final String FIRST_PLAYER_NAME_PLACEHOLDER = "Gracz1";
+    public static final String SECOND_PLAYER_NAME_PLACEHOLDER = "Gracz2";
+
+    private JButton newGame = new JButton(NEW_GAME);
+    private JButton help = new JButton(HELP);
+    private JButton author = new JButton(AUTHOR);
+    private JButton end = new JButton(END);
+    private JButton back = new JButton(BACK);
+    private JButton start = new JButton(START);
+    private JTextArea textArea = new JTextArea(HELP, 4, 20);
+    private JTextArea textAreaAuthors = new JTextArea(AUTHOR, 4, 20);
 
     private JPanel panel;
-    private String imieGracz1;
-    private String imieGracz2;
+    private String firstPlayersName;
+    private String secondPlayersName;
 
-    private JLabel gracz1String = new JLabel(" Player 1", SwingConstants.LEFT);
-    private JTextField nameFieldPlayer1 = new JTextField("Gracz1");
-    private JLabel gracz2String = new JLabel(" Gracz2", SwingConstants.RIGHT);
-    private JTextField nameFieldPlayer2 = new JTextField("Gracz2");
+    private JLabel firstPlayerString = new JLabel(FIRST_PLAYER_TEXT, SwingConstants.LEFT);
+    private JTextField nameFieldFirstPlayer = new JTextField(FIRST_PLAYER_NAME_PLACEHOLDER);
+    private JLabel secondPlayerString = new JLabel(SECOND_PLAYER_TEXT, SwingConstants.RIGHT);
+    private JTextField nameFieldSecondPlayer = new JTextField(SECOND_PLAYER_NAME_PLACEHOLDER);
 
     public Game() {
         super("TOWERS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(Board.SZEROKOSC, Board.WYSOKOSC);
-        nameFieldPlayer1.setPreferredSize(new Dimension(Board.SZEROKOSC / 4,
+        setSize(Board.WIDTH, Board.HEIGHT);
+        nameFieldFirstPlayer.setPreferredSize(new Dimension(Board.WIDTH / 4,
                 20));
-        nameFieldPlayer2.setPreferredSize(new Dimension(Board.SZEROKOSC / 4,
+        nameFieldSecondPlayer.setPreferredSize(new Dimension(Board.WIDTH / 4,
                 20));
         start.setPreferredSize(new Dimension(100, 50));
-        powrot.setPreferredSize(new Dimension(100, 50));
+        back.setPreferredSize(new Dimension(100, 50));
         start.addActionListener(this);
-        powrot.addActionListener(this);
+        back.addActionListener(this);
 
-        nowaGra.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10,
+        newGame.setPreferredSize(new Dimension((Board.WIDTH / 4) - 10,
                 100));
-        pomoc.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10, 100));
-        autorzy.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10,
+        help.setPreferredSize(new Dimension((Board.WIDTH / 4) - 10, 100));
+        author.setPreferredSize(new Dimension((Board.WIDTH / 4) - 10,
                 100));
-        koniec.setPreferredSize(new Dimension((Board.SZEROKOSC / 4) - 10, 100));
+        end.setPreferredSize(new Dimension((Board.WIDTH / 4) - 10, 100));
 
-        nowaGra.addActionListener(this);
-        pomoc.addActionListener(this);
-        autorzy.addActionListener(this);
-        koniec.addActionListener(this);
+        newGame.addActionListener(this);
+        help.addActionListener(this);
+        author.addActionListener(this);
+        end.addActionListener(this);
 
     }
 
@@ -68,34 +79,34 @@ public class Game extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent evt) {
         Object zrodlo = evt.getSource();
-        if (zrodlo == nowaGra) {
+        if (zrodlo == newGame) {
             nowaGra();
-        } else if (zrodlo == pomoc)
+        } else if (zrodlo == help)
 
             pomoc();
-        else if (zrodlo == autorzy) {
+        else if (zrodlo == author) {
             autorzy();
-        } else if (zrodlo == koniec)
+        } else if (zrodlo == end)
             System.exit(0);
         else if (zrodlo == start) {
-            imieGracz1 = nameFieldPlayer1.getText();
-            imieGracz2 = nameFieldPlayer2.getText();
-            if (imieGracz1.length() == 0 || imieGracz2.length() == 0) {
+            firstPlayersName = nameFieldFirstPlayer.getText();
+            secondPlayersName = nameFieldSecondPlayer.getText();
+            if (firstPlayersName.length() == 0 || secondPlayersName.length() == 0) {
                 nowaGra();
             } else {
                 Towers towers = new Towers();
-                towers.init(imieGracz1, imieGracz2);
+                towers.init(firstPlayersName, secondPlayersName);
                 Thread t = new Thread(towers);
                 t.setPriority(10);
                 t.start();
             }
-        } else if (zrodlo == powrot) {
+        } else if (zrodlo == back) {
             menuGlowne();
         }
 
 		/*
-		 * panel.remove(nowaGra); panel.remove(pomoc); panel.remove(autorzy);
-		 * panel.remove(koniec);
+		 * panel.remove(newGame); panel.remove(help); panel.remove(author);
+		 * panel.remove(end);
 		 */
         repaint();
     }
@@ -107,10 +118,10 @@ public class Game extends JFrame implements ActionListener {
     public void menuGlowne() {
         panel = new JPanel();
 
-        panel.add(nowaGra);
-        panel.add(pomoc);
-        panel.add(autorzy);
-        panel.add(koniec);
+        panel.add(newGame);
+        panel.add(help);
+        panel.add(author);
+        panel.add(end);
 
         setContentPane(panel);
         show();
@@ -124,13 +135,13 @@ public class Game extends JFrame implements ActionListener {
     public void nowaGra() {
         panel = new JPanel();
 
-        panel.add(gracz1String);
-        panel.add(nameFieldPlayer1);
-        panel.add(gracz2String);
-        panel.add(nameFieldPlayer2);
+        panel.add(firstPlayerString);
+        panel.add(nameFieldFirstPlayer);
+        panel.add(secondPlayerString);
+        panel.add(nameFieldSecondPlayer);
 
         panel.add(start);
-        panel.add(powrot);
+        panel.add(back);
         setContentPane(panel);
         show();
     }
@@ -150,7 +161,7 @@ public class Game extends JFrame implements ActionListener {
         textArea.setText(text);
 
         panel.add(textArea);
-        panel.add(powrot);
+        panel.add(back);
         setContentPane(panel);
         show();
 
@@ -171,7 +182,7 @@ public class Game extends JFrame implements ActionListener {
         textAreaAuthors.setText(text);
 
         panel.add(textAreaAuthors);
-        panel.add(powrot);
+        panel.add(back);
         setContentPane(panel);
         show();
 

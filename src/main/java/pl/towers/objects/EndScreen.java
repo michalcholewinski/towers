@@ -12,7 +12,7 @@ import pl.towers.additions.WinnerString;
 public class EndScreen {
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
-	private final int RIGHT_WINNER_STRING_X = Board.SZEROKOSC - 120; // wsp�rzedna
+	private final int RIGHT_WINNER_STRING_X = Board.WIDTH - 120; // wsp�rzedna
 																		// X
 																		// napisu
 																		// z
@@ -23,7 +23,7 @@ public class EndScreen {
 	private final int LEFT_WINNER_STRING_X = 30; // wsp�rzedna X napisu z
 													// imieniem GRACZA1 jesli
 													// wygra�
-	private final int WINNER_STRING_Y = Board.WYSOKOSC - 200; // wsp�rzedna Y
+	private final int WINNER_STRING_Y = Board.HEIGHT - 200; // wsp�rzedna Y
 																// napisu z
 																// imieniem
 																// gracza kt�ry
@@ -42,22 +42,22 @@ public class EndScreen {
 	private final int RIGHT = 1;
 	private final int LEFT = 0;
 	private final int BOUND = 25; // Skok strza�ki
-	private final int POINT_Y1L = Board.WYSOKOSC - 45,
-			POINT_Y2L = Board.WYSOKOSC - 45,
-			POINT_Y3L = Board.WYSOKOSC - 35,
-			POINT_Y4L = Board.WYSOKOSC - 60,
-			POINT_Y5L = Board.WYSOKOSC - 85,
-			POINT_Y6L = Board.WYSOKOSC - 75,
-			POINT_Y7L = Board.WYSOKOSC - 75, POINT_Y8L = 45;
-	private final int POINT_Y1R = Board.WYSOKOSC - 60,
-			POINT_Y2R = Board.WYSOKOSC - 35,
-			POINT_Y3R = Board.WYSOKOSC - 45,
-			POINT_Y4R = Board.WYSOKOSC - 45,
-			POINT_Y5R = Board.WYSOKOSC - 75,
-			POINT_Y6R = Board.WYSOKOSC - 75,
-			POINT_Y7R = Board.WYSOKOSC - 85,
-			POINT_Y8R = Board.WYSOKOSC - 60;
-	private final int MIDDLE = Board.SZEROKOSC / 2;
+	private final int POINT_Y1L = Board.HEIGHT - 45,
+			POINT_Y2L = Board.HEIGHT - 45,
+			POINT_Y3L = Board.HEIGHT - 35,
+			POINT_Y4L = Board.HEIGHT - 60,
+			POINT_Y5L = Board.HEIGHT - 85,
+			POINT_Y6L = Board.HEIGHT - 75,
+			POINT_Y7L = Board.HEIGHT - 75, POINT_Y8L = 45;
+	private final int POINT_Y1R = Board.HEIGHT - 60,
+			POINT_Y2R = Board.HEIGHT - 35,
+			POINT_Y3R = Board.HEIGHT - 45,
+			POINT_Y4R = Board.HEIGHT - 45,
+			POINT_Y5R = Board.HEIGHT - 75,
+			POINT_Y6R = Board.HEIGHT - 75,
+			POINT_Y7R = Board.HEIGHT - 85,
+			POINT_Y8R = Board.HEIGHT - 60;
+	private final int MIDDLE = Board.WIDTH / 2;
 	private final int POINT_X1L = MIDDLE - 30, POINT_X2L = MIDDLE + 1,
 			POINT_X3L = MIDDLE + 30;
 	private final int POINT_X1R = MIDDLE - 30, POINT_X2R = MIDDLE - 1,
@@ -136,7 +136,7 @@ public class EndScreen {
 					BG_COMPONENT_BLUE));
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 					TRANSPARENT_DEGREE * 0.1f));
-			g.fillRect(0, 0, Board.SZEROKOSC, Board.WYSOKOSC);
+			g.fillRect(0, 0, Board.WIDTH, Board.HEIGHT);
 
 			g.setColor(Color.black);
 			if (playerNumber == GRACZ2) {

@@ -1,4 +1,6 @@
 package pl.towers.objects;
+import pl.towers.player.PlayerEnum;
+
 import java.awt.*;
 
 /**
@@ -14,22 +16,18 @@ public class Tower extends Launcher {
 	protected final int TOWER_WIDTH = 50;
 	protected final int TOWER_HEIGHT = 90;
 	protected final int LEFT_TOWER_X = 25;
-	protected final int RIGHT_TOWER_X = Board.SZEROKOSC-100;
-	private final int TOWER_Y = Board.WYSOKOSC-TOWER_HEIGHT;
+	protected final int RIGHT_TOWER_X = Board.WIDTH -100;
+	private final int TOWER_Y = Board.HEIGHT -TOWER_HEIGHT;
 	private final int BRICK_LENGTH = 12;
 	private final int BRICK_HEIGHT = 5;
 	private final int TOWER_END = 40; //uzyte przy rysowaniu cegie� aby w co drugim rz�dzie narysowa� na koncu po��wke ceg�y
 	private final int TOWER_END2 = 30;
 	
 	protected int life;	//poziom �ycia dla wie�y przypisujemy 100 i zmniejszamy w zaleznosci od pocisku ktory w nas trafil
-						
-	public int playerNumber; //0-dla wie�y znajdujacej sie po lewej stronie
-					//1-dla wie�y znajduj�cej si� po prawej stronie
 	
-	public Tower(int playerNumber){
+	public Tower(PlayerEnum playerNumber){
 		super(playerNumber);
 		life=INITIAL_LIFE;
-		this.playerNumber=playerNumber;
 
 	}
 	
@@ -38,7 +36,7 @@ public class Tower extends Launcher {
 	public void paint(Graphics2D g){
 		super.paint(g);
 		boolean i=true; //zmienna pomocnicza przy rysowaniu cegie� tak aby nie by�y w jednym rz�dzie
-		if (playerNumber==GRACZ1){
+		if (player==PlayerEnum.LEFT){
 			g.setColor(Color.gray);
 			if(!debugMode) g.fillRect(LEFT_TOWER_X, TOWER_Y, TOWER_WIDTH, TOWER_HEIGHT);
 			g.setColor(Color.blue);
@@ -59,7 +57,7 @@ public class Tower extends Launcher {
 				}
 			}
 		}
-		else if(playerNumber==GRACZ2){
+		else {
 			g.setColor(Color.gray);
 			if(!debugMode) g.fillRect(RIGHT_TOWER_X, TOWER_Y, TOWER_WIDTH, TOWER_HEIGHT);
 			g.setColor(Color.blue);
@@ -84,7 +82,7 @@ public class Tower extends Launcher {
 	/**
 	 * Metoda zmiejszaj�ca �ywotnosc wiezy jako parametr
 	 * jest podawana liczba o jak� zycie ma zostac zmnejszone
-	 * @param wartosc
+	 * @param value
 	 */
 	public void decreaseLife(int value){
 		life-=value;

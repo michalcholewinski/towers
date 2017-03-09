@@ -1,11 +1,11 @@
 package pl.towers.additions;
-import java.awt.*;
-
 import pl.towers.objects.Board;
 
+import java.awt.*;
+
 public class PauseString{
-	private final int MIDDLE = (Board.SZEROKOSC / 2)+100;
-	private final int BOTTOM = Board.WYSOKOSC - 100;
+	private final int MIDDLE = (Board.WIDTH / 2)+100;
+	private final int BOTTOM = Board.HEIGHT - 100;
 	private final int P_POINTS = 9;
 	private final int A_POINTS = 9;
 	private final int U_POINTS = 11;

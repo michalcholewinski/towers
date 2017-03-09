@@ -14,12 +14,12 @@ public class Bullet {
 	private final int LEFT = 0;
 	private final int RIGHT = 1;
 	private final int PLAYER1_INFO_X = 60;
-	private final int PLAYER2_INFO_X = Board.SZEROKOSC - 160;
+	private final int PLAYER2_INFO_X = Board.WIDTH - 160;
 	private final int BULLET_SPEED_INFO_Y = 200;
 	private final int BULLET_COORDINATES_INFO = 270;
 	private final int STANDARD_DISPLAY_WIDTH = 800;
 	private final int STANDARD_BULLET_SPEED = 30;
-	private final int MINIMAL_BULLET_SPEED = (Board.SZEROKOSC * STANDARD_BULLET_SPEED)
+	private final int MINIMAL_BULLET_SPEED = (Board.WIDTH * STANDARD_BULLET_SPEED)
 			/ STANDARD_DISPLAY_WIDTH;
 	private final int NUMBER_OF_POINTS = 4;
 	private final int HILL = 0;
@@ -86,14 +86,14 @@ public class Bullet {
 		if (fired) {
 			if (night) {
 				g.setColor(Color.white);
-				g.drawOval(polozenieX - (Board.SREDNICA / 2), polozenieY
-						- (Board.SREDNICA / 2), Board.SREDNICA,
-						Board.SREDNICA);
+				g.drawOval(polozenieX - (Board.DIAMETER / 2), polozenieY
+						- (Board.DIAMETER / 2), Board.DIAMETER,
+						Board.DIAMETER);
 			}
 			g.setColor(Color.DARK_GRAY);
-			g.fillOval(polozenieX - (Board.SREDNICA / 2), polozenieY
-					- (Board.SREDNICA / 2), Board.SREDNICA,
-					Board.SREDNICA);
+			g.fillOval(polozenieX - (Board.DIAMETER / 2), polozenieY
+					- (Board.DIAMETER / 2), Board.DIAMETER,
+					Board.DIAMETER);
 		}
 		g.setColor(Color.black);
 		if(debugMode){
@@ -125,20 +125,20 @@ public class Bullet {
 				/*
 				 * polozenieX--; polozenieY--;
 				 */
-				polozenieX = ((Board.SZEROKOSC) - ((int) rzut.getXfor(time)))
-						- (Board.SZEROKOSC - Xpocz);
-				polozenieY = (((int) rzut.getYfor(time)) - (Board.WYSOKOSC - Ypocz));
+				polozenieX = ((Board.WIDTH) - ((int) rzut.getXfor(time)))
+						- (Board.WIDTH - Xpocz);
+				polozenieY = (((int) rzut.getYfor(time)) - (Board.HEIGHT - Ypocz));
 			} else if (playerNumber == GRACZ1) {
 				/*
 				 * polozenieX++; polozenieY--;
 				 */
 				polozenieX = (((int) rzut.getXfor(time)) + Xpocz);
-				polozenieY = (((int) rzut.getYfor(time)) - (Board.WYSOKOSC - Ypocz));
+				polozenieY = (((int) rzut.getYfor(time)) - (Board.HEIGHT - Ypocz));
 			}
 			time += 0.1;
 		}
-		if ((polozenieX <= 0) || (polozenieX > Board.SZEROKOSC)
-				|| (polozenieY > Board.WYSOKOSC)) {
+		if ((polozenieX <= 0) || (polozenieX > Board.WIDTH)
+				|| (polozenieY > Board.HEIGHT)) {
 			fired = false;
 			time = 0.1;
 		}
@@ -178,8 +178,8 @@ public class Bullet {
 	 * @return
 	 */
 	public Rectangle getBounds() {
-		return new Rectangle(polozenieX - (Board.SREDNICA / 2), polozenieY
-				- (Board.SREDNICA / 2), Board.SREDNICA, Board.SREDNICA);
+		return new Rectangle(polozenieX - (Board.DIAMETER / 2), polozenieY
+				- (Board.DIAMETER / 2), Board.DIAMETER, Board.DIAMETER);
 
 	}
 
@@ -191,14 +191,14 @@ public class Bullet {
 	public Polygon getPolygonBounds() {
 		int tabX[] = new int[NUMBER_OF_POINTS];
 		int tabY[] = new int[NUMBER_OF_POINTS];
-		tabX[0] = polozenieX - (Board.SREDNICA / 2);
-		tabY[0] = polozenieY - (Board.SREDNICA / 2);
-		tabX[1] = polozenieX - (Board.SREDNICA / 2) + Board.SREDNICA;
-		tabY[1] = polozenieY - (Board.SREDNICA / 2);
-		tabX[2] = polozenieX - (Board.SREDNICA / 2) + Board.SREDNICA;
-		tabY[2] = polozenieY - (Board.SREDNICA / 2) + Board.SREDNICA;
-		tabX[3] = polozenieX - (Board.SREDNICA / 2);
-		tabY[3] = polozenieY - (Board.SREDNICA / 2) + Board.SREDNICA;
+		tabX[0] = polozenieX - (Board.DIAMETER / 2);
+		tabY[0] = polozenieY - (Board.DIAMETER / 2);
+		tabX[1] = polozenieX - (Board.DIAMETER / 2) + Board.DIAMETER;
+		tabY[1] = polozenieY - (Board.DIAMETER / 2);
+		tabX[2] = polozenieX - (Board.DIAMETER / 2) + Board.DIAMETER;
+		tabY[2] = polozenieY - (Board.DIAMETER / 2) + Board.DIAMETER;
+		tabX[3] = polozenieX - (Board.DIAMETER / 2);
+		tabY[3] = polozenieY - (Board.DIAMETER / 2) + Board.DIAMETER;
 		return new Polygon(tabX, tabY, NUMBER_OF_POINTS);
 	}
 
@@ -210,10 +210,10 @@ public class Bullet {
 			collision = true;
 		fired = false;
 		if (playerNumber == GRACZ1) {
-			polozenieX = Board.SZEROKOSC + 1;
+			polozenieX = Board.WIDTH + 1;
 		} else
 			polozenieX = 0;
-		polozenieY = Board.WYSOKOSC + 1;
+		polozenieY = Board.HEIGHT + 1;
 	}
 
 	/**

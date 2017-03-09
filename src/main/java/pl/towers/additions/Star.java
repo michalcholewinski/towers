@@ -21,8 +21,8 @@ public class Star {
 	
 	public Star(){
 		rand=new Random();
-		coordinateX=rand.nextInt(Board.SZEROKOSC);
-		coordinateY=rand.nextInt(Board.WYSOKOSC);
+		coordinateX=rand.nextInt(Board.WIDTH);
+		coordinateY=rand.nextInt(Board.HEIGHT);
 		tabX[0]=coordinateX;
 		tabY[0]=coordinateY;
 		tabX[1]=coordinateX+4;

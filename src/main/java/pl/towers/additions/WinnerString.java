@@ -10,8 +10,8 @@ import pl.towers.objects.Board;
  *
  */
 public class WinnerString {
-	private final int MIDDLE = Board.SZEROKOSC / 2;
-	private final int BOTTOM = Board.WYSOKOSC - 40;
+	private final int MIDDLE = Board.WIDTH / 2;
+	private final int BOTTOM = Board.HEIGHT - 40;
 	private final int W_POINTS = 13;
 	private final int I_POINTS = 5;
 	private final int N_POINTS = 11;

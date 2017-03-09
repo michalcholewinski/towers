@@ -14,10 +14,10 @@ public class ShootPowerBar {// extends Thread{
 	private final int INDICATOR_WIDTH = 10;
 	private final int INDICATOR_HEIGTH = 100;
 	private final int LEFT_POWER_INDICATOR_X = 1;
-	private final int RIGHT_POWER_INDICATOR_X = Board.SZEROKOSC
+	private final int RIGHT_POWER_INDICATOR_X = Board.WIDTH
 			- INDICATOR_WIDTH - 10;
-	private final int POWER_INDICATOR_Y = Board.WYSOKOSC - 130;
-	private final int FILL_POWER_INDICATOR_Y = Board.WYSOKOSC - 30;
+	private final int POWER_INDICATOR_Y = Board.HEIGHT - 130;
+	private final int FILL_POWER_INDICATOR_Y = Board.HEIGHT - 30;
 	private final int MAX_POWER = 100;
 	private final int DOWN = 0;
 	private final int UP = 1;

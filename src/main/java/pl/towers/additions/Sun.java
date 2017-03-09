@@ -32,7 +32,7 @@ public class Sun {
 		delay++;
 		if (delay % DELAY == 0) {
 			coordinateX++;
-			if(coordinateX> Board.SZEROKOSC){
+			if(coordinateX> Board.WIDTH){
 				coordinateX=START_POSITION;
 			}
 		}
