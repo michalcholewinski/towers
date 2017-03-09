@@ -14,9 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
 public class Towers extends Canvas implements Plansza, KeyListener, Runnable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private final int GRACZ1 = 0;
 	private final int GRACZ2 = 1;
