@@ -1,7 +1,7 @@
 package pl.towers;
 
 import pl.towers.additions.Pause;
-import pl.towers.player.PlayerEnum;
+import pl.towers.player.*;
 import pl.towers.sound.ShotSound;
 import pl.towers.sound.SimpleAudioPlayer;
 import pl.towers.objects.*;
@@ -90,10 +90,10 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 		firstPlayersBullet = new Bullet(FIRST_PLAYER);
 		secondPlayersBullet = new Bullet(SECOND_PLAYER);
 		background = new Background();
-		firstPlayersLifeBar = new LifeBar(FIRST_PLAYER, firstPlayer.getPlayerName());
-		secondPlayersLifeBar = new LifeBar(SECOND_PLAYER, secondPlayer.getPlayerName());
-		firstPlayersShootPowerBar = new ShootPowerBar(FIRST_PLAYER);
-		secondPlayersShootPowerBar = new ShootPowerBar(SECOND_PLAYER);
+		firstPlayersLifeBar = new LifeBar(PlayerEnum.LEFT, firstPlayer.getPlayerName()); //TODO(mcholewi) move it to player class
+		secondPlayersLifeBar = new LifeBar(PlayerEnum.RIGHT, secondPlayer.getPlayerName());
+		firstPlayersShootPowerBar = new ShootPowerBar(PlayerEnum.LEFT);
+		secondPlayersShootPowerBar = new ShootPowerBar(PlayerEnum.RIGHT);
 		end = new EndScreen();
 		sound = new SimpleAudioPlayer(SOUND_NAME);
 		hitSound = new ShotSound();

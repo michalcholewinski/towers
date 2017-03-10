@@ -1,4 +1,7 @@
-package pl.towers.objects;
+package pl.towers.player;
+
+import pl.towers.objects.Board;
+import pl.towers.additions.ObliqueThrow;
 
 import java.awt.*;
 

@@ -1,4 +1,6 @@
-package pl.towers.objects;
+package pl.towers.additions;
+
+import pl.towers.objects.Board;
 
 /**
  * Klasa reprezentujaca rzut oblicza wszystkie niezbedne parametry, PRZEROBIONA
@@ -50,11 +52,11 @@ public class ObliqueThrow {
 	}
 
 	// Przycina kat do pierwszej cwiartki
-	private double trim(double kat) {
-		if (kat < 0)
-			kat = -kat;
-		while (kat > Math.PI / 2.0)
-			kat = kat - Math.PI / 2.0;
-		return kat;
+	private double trim(double angle) {
+		if (angle < 0)
+			angle = -angle;
+		while (angle > Math.PI / 2.0)
+			angle = angle - Math.PI / 2.0;
+		return angle;
 	}
 }

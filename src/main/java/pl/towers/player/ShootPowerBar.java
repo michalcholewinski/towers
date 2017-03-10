@@ -1,4 +1,6 @@
-package pl.towers.objects;
+package pl.towers.player;
+
+import pl.towers.objects.Board;
 
 import java.awt.*;
 
@@ -9,8 +11,6 @@ import java.awt.*;
  * 
  */
 public class ShootPowerBar {// extends Thread{
-	private final int GRACZ1 = 0;
-	private final int GRACZ2 = 1;
 	private final int INDICATOR_WIDTH = 10;
 	private final int INDICATOR_HEIGTH = 100;
 	private final int LEFT_POWER_INDICATOR_X = 1;
@@ -25,14 +25,14 @@ public class ShootPowerBar {// extends Thread{
 	private final int DELAY = 2;
 
 	private int power;
-	private int playerNumber;
+	private PlayerEnum player;
 	private boolean night;
 	private boolean debugMode=false;
 	private int direction = DOWN, delay = 0;
 
-	public ShootPowerBar(int playerNumber) {
-		this.playerNumber = playerNumber;
-		if (playerNumber == GRACZ1) {
+	public ShootPowerBar(PlayerEnum player) {
+		this.player = player;
+		if (player == PlayerEnum.LEFT) {
 			power = MAX_POWER;
 		} else
 			power = MAX_POWER - 50;
@@ -63,43 +63,31 @@ public class ShootPowerBar {// extends Thread{
 	}
 
 	public void paint(Graphics2D g) {
-		if (playerNumber == GRACZ1) {
-			g.setColor(Color.black);
-			if (night)
-				if(!debugMode) g.setColor(Color.white);
-			g.drawRect(LEFT_POWER_INDICATOR_X, POWER_INDICATOR_Y,
-					INDICATOR_WIDTH, INDICATOR_HEIGTH);
-			g.setColor(Color.YELLOW);
-			if(!debugMode) g.fillRect(LEFT_POWER_INDICATOR_X, FILL_POWER_INDICATOR_Y - power,
-					INDICATOR_WIDTH, INDICATOR_HEIGTH);
-			else {
-				g.setColor(Color.black);
-				g.drawRect(LEFT_POWER_INDICATOR_X, FILL_POWER_INDICATOR_Y - power,
-						INDICATOR_WIDTH, INDICATOR_HEIGTH);
-			}
-			g.setColor(Color.black);
-			if(debugMode) g.drawString(Integer.toString(power), LEFT_POWER_INDICATOR_X,
-					INDICATOR_INFO_Y);
+		if (player == PlayerEnum.LEFT) {
+			paintPowerBar(g, LEFT_POWER_INDICATOR_X);
 
-		} else if (playerNumber == GRACZ2) {
-			g.setColor(Color.black);
-			if (night)
-				if(!debugMode) g.setColor(Color.white);
-			g.drawRect(RIGHT_POWER_INDICATOR_X, POWER_INDICATOR_Y,
-					INDICATOR_WIDTH, INDICATOR_HEIGTH);
-			g.setColor(Color.YELLOW);
-			if(!debugMode) g.fillRect(RIGHT_POWER_INDICATOR_X, FILL_POWER_INDICATOR_Y - power,
-					INDICATOR_WIDTH, INDICATOR_HEIGTH);
-			else{
-				g.setColor(Color.black);
-				g.drawRect(RIGHT_POWER_INDICATOR_X, FILL_POWER_INDICATOR_Y - power,
-						INDICATOR_WIDTH, INDICATOR_HEIGTH);
-				
-			}
-			g.setColor(Color.black);
-			if(debugMode) g.drawString(Integer.toString(power), RIGHT_POWER_INDICATOR_X,
-					INDICATOR_INFO_Y);
+		} else {
+			paintPowerBar(g, RIGHT_POWER_INDICATOR_X);
 		}
+	}
+
+	private void paintPowerBar(Graphics2D g, int powerIndicatorX) {
+		g.setColor(Color.black);
+		if (night)
+            if(!debugMode) g.setColor(Color.white);
+		g.drawRect(powerIndicatorX, POWER_INDICATOR_Y,
+                INDICATOR_WIDTH, INDICATOR_HEIGTH);
+		g.setColor(Color.YELLOW);
+		if(!debugMode) g.fillRect(powerIndicatorX, FILL_POWER_INDICATOR_Y - power,
+                INDICATOR_WIDTH, INDICATOR_HEIGTH);
+        else {
+            g.setColor(Color.black);
+            g.drawRect(powerIndicatorX, FILL_POWER_INDICATOR_Y - power,
+                    INDICATOR_WIDTH, INDICATOR_HEIGTH);
+        }
+		g.setColor(Color.black);
+		if(debugMode) g.drawString(Integer.toString(power), powerIndicatorX,
+                INDICATOR_INFO_Y);
 	}
 
 	/**

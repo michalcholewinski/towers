@@ -1,5 +1,6 @@
-package pl.towers.objects;
+package pl.towers.player.tower;
 
+import pl.towers.objects.Board;
 import pl.towers.player.PlayerEnum;
 
 import java.awt.*;
