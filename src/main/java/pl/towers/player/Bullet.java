@@ -2,8 +2,12 @@ package pl.towers.player;
 
 import pl.towers.objects.Board;
 import pl.towers.additions.ObliqueThrow;
+import pl.towers.objects.TimeOfTheDay;
 
 import java.awt.*;
+
+import static pl.towers.objects.TimeOfTheDay.DAY;
+import static pl.towers.objects.TimeOfTheDay.NIGHT;
 
 /**
  * Klasa opisuj�ca pocisk
@@ -40,13 +44,13 @@ public class Bullet {
 	public double angle;// Kat nachylenia dzialka
 	private int bulletSpeed;// Predkosc pocisku
 	private int speed;
-	private boolean night;
+	private TimeOfTheDay timeOfTheDay;
 	private boolean collision;
 	private boolean debugMode = false;
 
 	public Bullet(int playerNumber) {
 		this.playerNumber = playerNumber;
-		night = false;
+		timeOfTheDay = DAY;
 		rzut = new ObliqueThrow();
 		collision = false;
 	}
@@ -87,7 +91,7 @@ public class Bullet {
 
 	public void paint(Graphics2D g) {
 		if (fired) {
-			if (night) {
+			if (timeOfTheDay==NIGHT) {
 				g.setColor(Color.white);
 				g.drawOval(polozenieX - (Board.DIAMETER / 2), polozenieY
 						- (Board.DIAMETER / 2), Board.DIAMETER,
@@ -99,6 +103,10 @@ public class Bullet {
 					Board.DIAMETER);
 		}
 		g.setColor(Color.black);
+		paintInDebugMode(g);
+	}
+
+	private void paintInDebugMode(Graphics2D g) {
 		if(debugMode){
 			if (playerNumber == GRACZ2) {
 				 g.drawString("X: " + Integer.toString(polozenieX) + " Y: "
@@ -222,10 +230,10 @@ public class Bullet {
 	/**
 	 * Ustawienie true jesli jest sceneria nocna
 	 * 
-	 * @param night
+	 * @param timeOfTheDay
 	 */
-	public void setNight(boolean night) {
-		this.night = night;
+	public void setTimeOfTheDay(TimeOfTheDay timeOfTheDay) {
+		this.timeOfTheDay = timeOfTheDay;
 	}
 
 	/**

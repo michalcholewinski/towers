@@ -1,8 +1,12 @@
 package pl.towers.player;
 
 import pl.towers.objects.Board;
+import pl.towers.objects.TimeOfTheDay;
 
 import java.awt.*;
+
+import static pl.towers.objects.TimeOfTheDay.DAY;
+import static pl.towers.objects.TimeOfTheDay.NIGHT;
 
 /**
  * Klasa opisuj�ca pasek mocy strza�u dla gracza
@@ -26,17 +30,18 @@ public class ShootPowerBar {// extends Thread{
 
 	private int power;
 	private PlayerEnum player;
-	private boolean night;
+	private TimeOfTheDay timeOfTheDay;
 	private boolean debugMode=false;
 	private int direction = DOWN, delay = 0;
 
 	public ShootPowerBar(PlayerEnum player) {
 		this.player = player;
+		this.timeOfTheDay = DAY;
 		if (player == PlayerEnum.LEFT) {
 			power = MAX_POWER;
-		} else
+		} else {
 			power = MAX_POWER - 50;
-		night = false;
+		}
 	}
 
 	/**
@@ -73,8 +78,9 @@ public class ShootPowerBar {// extends Thread{
 
 	private void paintPowerBar(Graphics2D g, int powerIndicatorX) {
 		g.setColor(Color.black);
-		if (night)
-            if(!debugMode) g.setColor(Color.white);
+		if (timeOfTheDay==NIGHT && !debugMode)
+            g.setColor(Color.white);
+
 		g.drawRect(powerIndicatorX, POWER_INDICATOR_Y,
                 INDICATOR_WIDTH, INDICATOR_HEIGTH);
 		g.setColor(Color.YELLOW);
@@ -99,12 +105,8 @@ public class ShootPowerBar {// extends Thread{
 		return power;
 	}
 
-	/**
-	 * Ustawienie true jesli jest sceneria nocna
-	 * @param night
-	 */
-	public void setNight(boolean night){
-		this.night=night;
+	public void setTimeOfTheDay(TimeOfTheDay timeOfTheDay){
+		this.timeOfTheDay=timeOfTheDay;
 	}
 	
 	/**

@@ -29,14 +29,14 @@ public class Game extends JFrame implements ActionListener {
     public static final String FIRST_PLAYER_NAME_PLACEHOLDER = "Gracz1";
     public static final String SECOND_PLAYER_NAME_PLACEHOLDER = "Gracz2";
 
-    private JButton newGame = new JButton(NEW_GAME);
-    private JButton help = new JButton(HELP);
-    private JButton author = new JButton(AUTHOR);
-    private JButton end = new JButton(END);
-    private JButton back = new JButton(BACK);
-    private JButton start = new JButton(START);
-    private JTextArea textArea = new JTextArea(HELP, 4, 20);
-    private JTextArea textAreaAuthors = new JTextArea(AUTHOR, 4, 20);
+    private static final JButton newGame = new JButton(NEW_GAME);
+    private static final JButton help = new JButton(HELP);
+    private static final JButton author = new JButton(AUTHOR);
+    private static final JButton end = new JButton(END);
+    private static final JButton back = new JButton(BACK);
+    private static final JButton start = new JButton(START);
+    private static final JTextArea textArea = new JTextArea(HELP, 4, 20);
+    private static final JTextArea textAreaAuthors = new JTextArea(AUTHOR, 4, 20);
 
     private JPanel panel;
     private String firstPlayersName;
@@ -48,7 +48,7 @@ public class Game extends JFrame implements ActionListener {
     private JTextField nameFieldSecondPlayer = new JTextField(SECOND_PLAYER_NAME_PLACEHOLDER);
 
     public Game() {
-        super("TOWERS");
+        super(Towers.TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Board.WIDTH, Board.HEIGHT);
         nameFieldFirstPlayer.setPreferredSize(new Dimension(Board.WIDTH / 4,
@@ -78,21 +78,21 @@ public class Game extends JFrame implements ActionListener {
      * Nasłuch który przycisk został wcisnięty
      */
     public void actionPerformed(ActionEvent evt) {
-        Object zrodlo = evt.getSource();
-        if (zrodlo == newGame) {
-            nowaGra();
-        } else if (zrodlo == help)
+        Object source = evt.getSource();
+        if (source == newGame) {
+            newGame();
+        } else if (source == help)
 
-            pomoc();
-        else if (zrodlo == author) {
-            autorzy();
-        } else if (zrodlo == end)
+            help();
+        else if (source == author) {
+            author();
+        } else if (source == end)
             System.exit(0);
-        else if (zrodlo == start) {
+        else if (source == start) {
             firstPlayersName = nameFieldFirstPlayer.getText();
             secondPlayersName = nameFieldSecondPlayer.getText();
             if (firstPlayersName.length() == 0 || secondPlayersName.length() == 0) {
-                nowaGra();
+                newGame();
             } else {
                 Towers towers = new Towers();
                 towers.init(firstPlayersName, secondPlayersName);
@@ -100,8 +100,8 @@ public class Game extends JFrame implements ActionListener {
                 t.setPriority(10);
                 t.start();
             }
-        } else if (zrodlo == back) {
-            menuGlowne();
+        } else if (source == back) {
+            mainMenu();
         }
 
 		/*
@@ -115,7 +115,7 @@ public class Game extends JFrame implements ActionListener {
      * Metoda odpowiedzialna za wyswietlenie menu głównego
      */
     @SuppressWarnings("deprecation")
-    public void menuGlowne() {
+    public void mainMenu() {
         panel = new JPanel();
 
         panel.add(newGame);
@@ -132,7 +132,7 @@ public class Game extends JFrame implements ActionListener {
      * gry
      */
     @SuppressWarnings("deprecation")
-    public void nowaGra() {
+    public void newGame() {
         panel = new JPanel();
 
         panel.add(firstPlayerString);
@@ -149,8 +149,7 @@ public class Game extends JFrame implements ActionListener {
     /**
      * Metoda odpowiedzialna za wyswietlenie informacji o grze ( sterowanie itp)
      */
-    @SuppressWarnings("deprecation")
-    public void pomoc() {
+    public void help() {
         panel = new JPanel();
         String text = "";
         try {
@@ -167,11 +166,7 @@ public class Game extends JFrame implements ActionListener {
 
     }
 
-    /**
-     * Metoda odpowiedzialna za wyswietlenie informacji o autorach
-     */
-    @SuppressWarnings("deprecation")
-    public void autorzy() {
+     public void author() {
         panel = new JPanel();
         String text = "";
         try {
@@ -190,6 +185,6 @@ public class Game extends JFrame implements ActionListener {
 
     public static void main(String[] arg) {
         Game game = new Game();
-        game.menuGlowne();
+        game.mainMenu();
     }
 }

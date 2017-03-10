@@ -1,8 +1,11 @@
 package pl.towers.player;
 
 import pl.towers.objects.Board;
+import pl.towers.objects.TimeOfTheDay;
 
 import java.awt.*;
+
+import static pl.towers.objects.TimeOfTheDay.DAY;
 
 /**
  * Klasa opisuj�ca pasek zycia dla wiezy
@@ -24,13 +27,13 @@ public class LifeBar {
 	private PlayerEnum player;
 	private int life;
 	private String playerName;
-	private boolean night;
+	private TimeOfTheDay timeOfTheDay;
 	private boolean debugMode=false;
 
 	public LifeBar(PlayerEnum player, String playerName) {
 		this.player = player;
 		this.playerName=playerName;
-		night=false;
+		timeOfTheDay = DAY;
 	}
 
 	/**
@@ -66,8 +69,8 @@ public class LifeBar {
 		g.drawRect(life_indicator_x, LIFE_INDICATOR_Y, LIFE_INDICATOR_LENGTH, LIFE_INDICATOR_WIDTH);
 
 		g.setColor(Color.black);
-		if(night){
-            if(!debugMode) g.setColor(Color.white);
+		if(timeOfTheDay==DAY && !debugMode){
+            g.setColor(Color.white);
         }
 		g.drawString(playerName, life_indicator_x, PLAYER_NAME_Y);
 		g.drawString(Integer.toString(life), life_indicator_x +LIFE_INDICATOR_LENGTH+offset,LIFE_INDICATOR_Y);
@@ -83,10 +86,10 @@ public class LifeBar {
 	
 	/**
 	 * Ustawienie true jesli jest sceneria nocna
-	 * @param night
+	 * @param timeOfTheDay
 	 */
-	public void setNight(boolean night){
-		this.night=night;
+	public void setTimeOfTheDay(TimeOfTheDay timeOfTheDay){
+		this.timeOfTheDay=timeOfTheDay;
 	}
 
 	/**

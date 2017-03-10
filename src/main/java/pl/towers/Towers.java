@@ -245,58 +245,18 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 			setDebugMode();
 			background.update();
 			hill.update();
-			windArrow.setNight(background.isNight());
-			if (firstPlayer.isWystrzelono()) {
-				if (!firstPlayersBullet.isCollision()) {
-					firstPlayersBullet.setFired(true);
-				} else {
-					firstPlayersBullet.setCollision(firstPlayer.isKeyReleased());
-				}
-			}
-			if (secondPlayer.isWystrzelono()) {
-				if (!secondPlayersBullet.isCollision()) {
-					secondPlayersBullet.setFired(true);
-				} else {
-					secondPlayersBullet.setCollision(secondPlayer.isKeyReleased());
-				}
-			}
-			if (firstPlayer.isDecreaseLife()) {
-				firstPlayer.collision();
-				secondPlayersBullet.collision(PLAYER);
-				hitSound.setFilename(PLAYER);
-				hitSound.setShot(true);
-			}
-			if (secondPlayer.isDecreaseLife()) {
-				secondPlayer.collision();
-				firstPlayersBullet.collision(PLAYER);
-				hitSound.setFilename(PLAYER);
-				hitSound.setShot(true);
-			}
-			firstPlayersBullet.ustawPolozeniePoczatkowe(firstPlayer.getCenterline());
-			firstPlayersBullet.setSpeed(firstPlayersShootPowerBar.getPower());
-			firstPlayersBullet.update();
-			firstPlayersBullet.calculateBulletSpeed(windArrow.getPower(), windArrow.getDirection());
-			firstPlayersBullet.angle = firstPlayer.getViewfinder();
-			firstPlayersBullet.setNight(background.isNight());
+			windArrow.setTimeOfTheDay(background.getTimeOfTheDay());
+            updateBulletsPositions();
+            updatePlayersHealth();
+            updateBullets();
 
-			secondPlayersBullet.ustawPolozeniePoczatkowe(secondPlayer.getCenterline());
-			secondPlayersBullet.setSpeed(secondPlayersShootPowerBar.getPower());
-			secondPlayersBullet.update();
-			secondPlayersBullet.calculateBulletSpeed(windArrow.getPower(), windArrow.getDirection());
-			secondPlayersBullet.angle = secondPlayer.getViewfinder();
-			secondPlayersBullet.setNight(background.isNight());
-
-			firstPlayersLifeBar.setLife(firstPlayer.getLife());
-
-			secondPlayersLifeBar.setLife(secondPlayer.getLife());
-			firstPlayersLifeBar.setNight(background.isNight());
-			secondPlayersLifeBar.setNight(background.isNight());
+            updateLifeBars();
 
 			if (!end.isShow()) {
 				firstPlayersShootPowerBar.update();
 				secondPlayersShootPowerBar.update();
-				firstPlayersShootPowerBar.setNight(background.isNight());
-				secondPlayersShootPowerBar.setNight(background.isNight());
+				firstPlayersShootPowerBar.setTimeOfTheDay(background.getTimeOfTheDay());
+				secondPlayersShootPowerBar.setTimeOfTheDay(background.getTimeOfTheDay());
 			} else {
 				endGame++;
 			}
@@ -318,7 +278,63 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 		else pauseScreen.update();
 	}
 
-	@SuppressWarnings("deprecation")
+    private void updateBulletsPositions() {
+        if (firstPlayer.isWystrzelono()) {
+            if (!firstPlayersBullet.isCollision()) {
+                firstPlayersBullet.setFired(true);
+            } else {
+                firstPlayersBullet.setCollision(firstPlayer.isKeyReleased());
+            }
+        }
+        if (secondPlayer.isWystrzelono()) {
+            if (!secondPlayersBullet.isCollision()) {
+                secondPlayersBullet.setFired(true);
+            } else {
+                secondPlayersBullet.setCollision(secondPlayer.isKeyReleased());
+            }
+        }
+    }
+
+    private void updateBullets() {
+        firstPlayersBullet.ustawPolozeniePoczatkowe(firstPlayer.getCenterline());
+        firstPlayersBullet.setSpeed(firstPlayersShootPowerBar.getPower());
+        firstPlayersBullet.update();
+        firstPlayersBullet.calculateBulletSpeed(windArrow.getPower(), windArrow.getDirection());
+        firstPlayersBullet.angle = firstPlayer.getViewfinder();
+        firstPlayersBullet.setTimeOfTheDay(background.getTimeOfTheDay());
+
+        secondPlayersBullet.ustawPolozeniePoczatkowe(secondPlayer.getCenterline());
+        secondPlayersBullet.setSpeed(secondPlayersShootPowerBar.getPower());
+        secondPlayersBullet.update();
+        secondPlayersBullet.calculateBulletSpeed(windArrow.getPower(), windArrow.getDirection());
+        secondPlayersBullet.angle = secondPlayer.getViewfinder();
+        secondPlayersBullet.setTimeOfTheDay(background.getTimeOfTheDay());
+    }
+
+    private void updateLifeBars() {
+        firstPlayersLifeBar.setLife(firstPlayer.getLife());
+
+        secondPlayersLifeBar.setLife(secondPlayer.getLife());
+        firstPlayersLifeBar.setTimeOfTheDay(background.getTimeOfTheDay());
+        secondPlayersLifeBar.setTimeOfTheDay(background.getTimeOfTheDay());
+    }
+
+    private void updatePlayersHealth() {
+        if (firstPlayer.isDecreaseLife()) {
+            firstPlayer.collision();
+            secondPlayersBullet.collision(PLAYER);
+            hitSound.setFilename(PLAYER);
+            hitSound.setShot(true);
+        }
+        if (secondPlayer.isDecreaseLife()) {
+            secondPlayer.collision();
+            firstPlayersBullet.collision(PLAYER);
+            hitSound.setFilename(PLAYER);
+            hitSound.setShot(true);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
 	public void run() {
 		sound.start();
 		hitSound.start();
@@ -333,16 +349,5 @@ public class Towers extends Canvas implements Board, KeyListener, Runnable {
 		}
 		window.setVisible(false);
 		sound.stop();
-		//System.exit(0);
 	}
-
-	/*public static void main(String[] args) {
-		Towers towers = new Towers();
-		towers.init();
-		Thread t = new Thread(towers);
-		t.setPriority(10);
-		t.start();
-
-	}*/
-
 }

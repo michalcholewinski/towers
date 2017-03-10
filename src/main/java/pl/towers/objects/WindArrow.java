@@ -1,8 +1,10 @@
 package pl.towers.objects;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.Random;
+
+import static pl.towers.objects.TimeOfTheDay.DAY;
+import static pl.towers.objects.TimeOfTheDay.NIGHT;
 
 public class WindArrow extends Wind {
 	private final int POINT_Y1L = 40, POINT_Y2L = 40, POINT_Y3L = 35,
@@ -37,13 +39,13 @@ public class WindArrow extends Wind {
 	private int[] wiatrPrawoX = { POINT_X1R, POINT_X2R, POINT_X2R, POINT_X3R,
 			POINT_X3R, POINT_X2R, POINT_X2R, POINT_X1R };
 	private Random rand;
-	private boolean night;
+	private TimeOfTheDay timeOfTheDay;
 	private boolean debugMode=false;
 	
 	public WindArrow() {
 		super();
 		rand = new Random();
-		night=false;
+		timeOfTheDay = DAY;
 
 	}
 
@@ -92,14 +94,14 @@ public class WindArrow extends Wind {
 
 	public void paint(Graphics2D g) {
 		g.setColor(Color.black);
-		if (night)
+		if (timeOfTheDay==NIGHT)
 			if(!debugMode) g.setColor(Color.white);
 		g.drawOval(OVAL_X, OVAL_Y, OVAL_DIMENSION, OVAL_DIMENSION);
 		g.setColor(Color.yellow);
 		if(!debugMode) g.fillOval(OVAL_X, OVAL_Y, OVAL_DIMENSION, OVAL_DIMENSION);
 		g.setColor(Color.black);
-		if (night)
-			if(!debugMode) g.setColor(Color.white);
+		if (timeOfTheDay==NIGHT && !debugMode)
+			 g.setColor(Color.white);
 		g.drawString(" Si�a Wiatru:  " + power, STRING_X, STRING_Y);
 		g.setColor(Color.green);
 		// strza�ka w prawo
@@ -119,13 +121,13 @@ public class WindArrow extends Wind {
 			}
 		}
 	}
-	
+
 	/**
 	 * Ustawienie true jesli jest sceneria nocna
-	 * @param night
+	 * @param timeOfTheDay
 	 */
-	public void setNight(boolean night){
-		this.night=night;
+	public void setTimeOfTheDay(TimeOfTheDay timeOfTheDay){
+		this.timeOfTheDay = timeOfTheDay;
 	}
 	
 	/**
